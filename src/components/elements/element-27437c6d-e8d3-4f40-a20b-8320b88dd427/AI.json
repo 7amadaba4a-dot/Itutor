@@ -1,0 +1,42 @@
+{
+    "metadata": {
+        "name": "profile-image-cropper",
+        "description": "A drag-to-reposition, wheel/slider-to-zoom circular image cropper for producing a square profile picture from an uploaded photo.",
+        "keywords": ["image", "crop", "avatar", "profile picture", "upload"],
+        "features": [
+            "Drag the image to reposition it within a fixed circular frame",
+            "Zoom via mouse wheel or an external range input bound the same way as the image",
+            "Confirm button exports a cropped square image as a base64 JPEG data URL",
+            "Exposes the result as a component variable so other elements/workflows can read it"
+        ],
+        "inherit": []
+    },
+    "properties": [
+        { "name": "imageUrl", "description": "The raw uploaded image (data URL or URL) to crop.", "type": "string", "defaultValue": "" },
+        { "name": "outputSize", "description": "Output image width/height in pixels (square).", "type": "number", "defaultValue": 500 },
+        { "name": "confirmButtonLabel", "description": "Text shown on the confirm-crop button.", "type": "string", "defaultValue": "Confirm crop" }
+    ],
+    "states": [],
+    "events": [
+        { "name": "cropped", "description": "Fires when the user clicks the confirm button. Payload value is the cropped image as a base64 JPEG data URL.", "payload": { "value": "string (data URL)" } }
+    ],
+    "localContext": [],
+    "actions": [
+        { "label": "Reset crop", "actionName": "resetCrop", "description": "Resets zoom and position back to the initial centered view.", "args": [] }
+    ],
+    "slots": [],
+    "variables": [
+        { "name": "croppedImage", "description": "The most recent cropped image as a base64 JPEG data URL. Updated whenever the user confirms a crop.", "type": "string", "readonly": false }
+    ],
+    "specifications": [
+        "Root element is fluid width; the crop stage itself is a fixed 320x320 circle regardless of container size.",
+        "Nothing happens until `imageUrl` is set — shows a placeholder text otherwise.",
+        "The image always starts scaled to cover the circular frame and centered; zoom range is 1x (cover) to 4x.",
+        "Dragging and zooming only update local view state — nothing is written back until the confirm button is clicked.",
+        "Designed for profile/avatar photos; output is always a square JPEG regardless of the source image's aspect ratio."
+    ],
+    "examples": [
+        { "description": "Basic usage bound to an uploaded raw image variable", "example": "{\"imageUrl\": \"variables['raw-image-uid']\", \"outputSize\": 500, \"confirmButtonLabel\": \"Confirm crop\"}" }
+    ],
+    "dependencies": []
+}

@@ -1,0 +1,34 @@
+{
+    "metadata": {
+        "name": "realtime-inbox-listener",
+        "description": "Invisible utility component that opens a Supabase Realtime broadcast subscription on a per-user channel ('user-<userId>') and fires events whenever a new chat message, a read-receipt, or a lesson change is pushed to that user.",
+        "keywords": ["realtime", "chat", "messages", "supabase", "websocket", "live", "push", "read receipts", "lessons"],
+        "features": ["Subscribes to a Supabase Realtime broadcast channel scoped to a user id", "Fires a messageReceived event with the new message payload", "Fires a messagesRead event when the other person reads your messages", "Fires a lessonChanged event when a lesson is booked, cancelled, or rescheduled for this user", "Re-subscribes automatically when the userId prop changes", "Cleans up the subscription on unmount", "Verbose console logging for diagnostics"],
+        "inherit": []
+    },
+    "properties": [
+        { "name": "userId", "description": "The logged-in user's id; the component listens on the 'user-<userId>' realtime channel.", "type": "string", "defaultValue": "" },
+        { "name": "supabaseUrl", "description": "The Supabase project URL.", "type": "string", "defaultValue": "https://kotzxqkagptcokpaviol.supabase.co" },
+        { "name": "supabaseAnonKey", "description": "The Supabase anon/public API key.", "type": "string", "defaultValue": "" }
+    ],
+    "states": [],
+    "events": [
+        { "name": "messageReceived", "description": "Fires the instant a new message is broadcast to this user's channel.", "payload": { "id": "number", "conversation_id": "number", "sender_id": "number", "content": "string", "created_at": "string" } },
+        { "name": "messagesRead", "description": "Fires when the other person in a conversation reads your messages.", "payload": { "conversation_id": "number", "reader_id": "number" } },
+        { "name": "lessonChanged", "description": "Fires when a lesson affecting this user is booked, cancelled, or rescheduled.", "payload": { "lesson_id": "number", "action": "string" } }
+    ],
+    "localContext": [],
+    "actions": [],
+    "slots": [],
+    "variables": [],
+    "specifications": [
+        "Renders no visible UI — place it once anywhere on the page.",
+        "Requires userId to be a non-empty string/number to actually subscribe.",
+        "Pairs with backend functions calling realtime.send(...,'new_message'|'messages_read'|'lesson_changed', 'user-<recipientId>', false).",
+        "Always subscribes regardless of editor isEditing state."
+    ],
+    "examples": [
+        { "description": "Listen for the current user's incoming messages, read receipts, and lesson changes", "example": "{\"userId\": \"42\", \"supabaseUrl\": \"https://kotzxqkagptcokpaviol.supabase.co\", \"supabaseAnonKey\": \"eyJ...\"}" }
+    ],
+    "dependencies": []
+}

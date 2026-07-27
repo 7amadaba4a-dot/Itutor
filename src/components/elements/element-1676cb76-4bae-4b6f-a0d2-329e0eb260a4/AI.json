@@ -1,0 +1,29 @@
+{
+    "metadata": {
+        "name": "booking-calendar-v6",
+        "description": "A student-facing weekly calendar with balanced spacing between the nav controls and the day columns. Clicking a slot toggles selection (highlighted); multiple slots can be selected at once for weekly recurring bookings.",
+        "keywords": ["booking", "calendar", "schedule", "availability", "weekly"],
+        "features": [],
+        "inherit": []
+    },
+    "properties": [
+        { "name": "slots", "description": "array of {day_of_week, start_time, end_time}", "type": "array", "defaultValue": [] },
+        { "name": "teacherTimezone", "description": "IANA timezone", "type": "string", "defaultValue": "UTC" },
+        { "name": "bookedSlots", "description": "UTC ISO strings already booked", "type": "array", "defaultValue": [] },
+        { "name": "slotMinutes", "description": "slot length in minutes", "type": "number", "defaultValue": 30 },
+        { "name": "selectedSlots", "description": "array of UTC ISO strings currently selected (not yet confirmed), for highlighting multiple", "type": "array", "defaultValue": [] }
+    ],
+    "states": [],
+    "events": [
+        { "name": "select", "description": "Fires when a slot is clicked, to toggle selection", "payload": { "value": "{ utcIso, displayTime }" } }
+    ],
+    "localContext": [],
+    "actions": [],
+    "slots": [],
+    "variables": [
+        { "name": "weekOffset", "description": "current week offset", "type": "number", "readonly": false }
+    ],
+    "specifications": [],
+    "examples": [],
+    "dependencies": []
+}

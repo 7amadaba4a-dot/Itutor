@@ -1,0 +1,28 @@
+{
+    "metadata": {
+        "name": "booking-calendar-v5",
+        "description": "A student-facing weekly calendar showing a tutor's bookable half-hour time slots (converted to the viewer's local timezone), with side padding so nothing touches the edges.",
+        "keywords": ["booking", "calendar", "schedule", "availability", "weekly", "timetable", "trial lesson"],
+        "features": [],
+        "inherit": []
+    },
+    "properties": [
+        { "name": "slots", "description": "array of {day_of_week, start_time, end_time}", "type": "array", "defaultValue": [] },
+        { "name": "teacherTimezone", "description": "IANA timezone", "type": "string", "defaultValue": "UTC" },
+        { "name": "bookedSlots", "description": "UTC ISO strings already booked", "type": "array", "defaultValue": [] },
+        { "name": "slotMinutes", "description": "slot length in minutes", "type": "number", "defaultValue": 30 }
+    ],
+    "states": [],
+    "events": [
+        { "name": "book", "description": "Fires when a slot is clicked", "payload": { "value": "{ utcIso, displayTime }" } }
+    ],
+    "localContext": [],
+    "actions": [],
+    "slots": [],
+    "variables": [
+        { "name": "weekOffset", "description": "current week offset", "type": "number", "readonly": false }
+    ],
+    "specifications": [],
+    "examples": [],
+    "dependencies": []
+}

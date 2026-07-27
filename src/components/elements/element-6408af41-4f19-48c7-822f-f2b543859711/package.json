@@ -1,0 +1,1 @@
+{"name":"despia-event-proxy","version":"1.0.8","scripts":{"build":"weweb build","serve":"weweb serve"},"devDependencies":{}}

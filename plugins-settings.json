@@ -1,0 +1,246 @@
+{
+    "41448d5d-ae26-49bd-82b6-1c79f462e972": {
+        "id": "dd2dbd0a-cca6-4829-9c77-d75cb21016d5",
+        "name": "Token Based Auth",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "41448d5d-ae26-49bd-82b6-1c79f462e972",
+        "publicData": {}
+    },
+    "e93a2dfd-9b19-473e-b445-c666fed4e14a": {
+        "id": "2381ed87-99ad-4dfa-bb62-9b7974d0fa02",
+        "name": "Auth0",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "e93a2dfd-9b19-473e-b445-c666fed4e14a",
+        "publicData": {}
+    },
+    "6a64802c-52f8-4637-9932-580bf178aaa7": {
+        "id": "1bcd3ad0-1d08-420f-a102-244d866b5fe0",
+        "name": "WeWeb Auth",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "6a64802c-52f8-4637-9932-580bf178aaa7",
+        "publicData": {
+            "clientId": "2f653vh9o3g5ofvotvmhpd81e4",
+            "userPoolId": "us-east-1_D7uNw3Lg3",
+            "invitationEmail": {
+                "EmailMessage": "Hi,<br/><br/>You have been invited to join the <b>My project</b> application.<br/>Please login with your email <b>{username}</b> using the password below:<br/><b>{####}</b><br/><br/>Best.",
+                "EmailSubject": "Invitation to join My project application"
+            },
+            "verificationEmail": {
+                "EmailMessage": "Hi,<br/><br/>Here is your verification code <b>{####}</b> to change your password on the <b>My project</b> application.<br/><br/>Best.<br/>",
+                "EmailSubject": "Your verification code for My project application",
+                "DefaultEmailOption": "CONFIRM_WITH_CODE"
+            }
+        }
+    },
+    "01af5352-af71-4382-844b-2ec141ff243b": {
+        "id": "03fe6c03-421a-4595-8ea4-9de517da6d4d",
+        "name": "OpenID",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "01af5352-af71-4382-844b-2ec141ff243b",
+        "publicData": {}
+    },
+    "f5856798-485d-47be-b433-d43d771c64e1": {
+        "id": "cfe226a3-222b-4619-b597-a4ccedf5db0a",
+        "name": "Xano Auth",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "f5856798-485d-47be-b433-d43d771c64e1",
+        "publicData": {}
+    },
+    "9c40819b-4a8f-468f-9ba5-4b9699f3361f": {
+        "id": "1ccf95a9-5ac1-477f-b7a8-47b59fbd27ab",
+        "name": "Charts",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "9c40819b-4a8f-468f-9ba5-4b9699f3361f",
+        "publicData": {}
+    },
+    "1506e088-e31c-49bc-83a1-90a3de4f6db1": {
+        "id": "948f3b16-84dc-405a-bd00-62d422027364",
+        "name": "SQL",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "1506e088-e31c-49bc-83a1-90a3de4f6db1",
+        "publicData": {}
+    },
+    "cabb43dd-6161-4140-8ebf-03b6fb045a0b": {
+        "id": "43bf27fe-0919-4db4-904c-012a9779964d",
+        "name": "Google",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "cabb43dd-6161-4140-8ebf-03b6fb045a0b",
+        "publicData": {}
+    },
+    "00d22f72-1a03-44f8-ad68-c593dc80b543": {
+        "id": "079e36bc-5b51-4626-970c-8fbc55302cb6",
+        "name": "Stripe",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "00d22f72-1a03-44f8-ad68-c593dc80b543",
+        "publicData": {}
+    },
+    "d66a250d-8468-469e-ad33-ee028f632398": {
+        "id": "6e944939-aa67-4982-8e2d-9686ad8dc88a",
+        "name": "OpenAI",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "d66a250d-8468-469e-ad33-ee028f632398",
+        "publicData": {}
+    },
+    "60610cfd-fa28-4fc1-9e72-088b5c667e81": {
+        "id": "3f67d174-3e68-4a81-afed-bf7f7e44b5cd",
+        "name": "Calendly",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "60610cfd-fa28-4fc1-9e72-088b5c667e81",
+        "publicData": {}
+    },
+    "75b9e021-a5fe-4ae9-8c6a-f4b3e65f2a24": {
+        "id": "027ee95d-99d8-49f8-97dc-c4935848b93c",
+        "name": "Vimeo",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "75b9e021-a5fe-4ae9-8c6a-f4b3e65f2a24",
+        "publicData": {}
+    },
+    "832d6f7a-42c3-43f1-a3ce-9a678272f811": {
+        "id": "b4e8d604-89e9-438b-9b05-d6cb790710bb",
+        "name": "Date",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "832d6f7a-42c3-43f1-a3ce-9a678272f811",
+        "publicData": {
+            "favoriteFormat": "dd.MM.yyyy"
+        }
+    },
+    "1c5f5c0f-5609-4031-9e57-5bb4811be7b3": {
+        "id": "c6367404-b66a-406a-9d0b-b12baadc5929",
+        "name": "Youtube",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "1c5f5c0f-5609-4031-9e57-5bb4811be7b3",
+        "publicData": {}
+    },
+    "cd33cf33-e29f-4e8c-ac26-b997fe507ce7": {
+        "id": "48e66348-62d2-47de-ab64-177c1a089692",
+        "name": "Xano",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "cd33cf33-e29f-4e8c-ac26-b997fe507ce7",
+        "publicData": {}
+    },
+    "2bd1c688-31c5-443e-ae25-59aa5b6431fb": {
+        "id": "1793864b-839b-4439-ae6a-989ce5b1a437",
+        "name": "REST API",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "2bd1c688-31c5-443e-ae25-59aa5b6431fb",
+        "publicData": {}
+    },
+    "fbf0feec-356b-461b-8738-3b1f44edaf02": {
+        "id": "eca890c9-51b6-438e-8a11-37612ea91a4b",
+        "name": "Google GTM",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "fbf0feec-356b-461b-8738-3b1f44edaf02",
+        "publicData": {}
+    },
+    "97e7b1ae-f88a-4697-849c-ee56ab49bb48": {
+        "id": "56acfe15-2903-4ff3-a5a9-a0ba81c3b544",
+        "name": "JavaScript",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "97e7b1ae-f88a-4697-849c-ee56ab49bb48",
+        "publicData": {}
+    },
+    "8bc1b5c9-29e4-4269-becb-a2e1a8de9127": {
+        "id": "e2f660dc-9ecd-484d-80ed-4e672e979a95",
+        "name": "WeWeb Email",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "8bc1b5c9-29e4-4269-becb-a2e1a8de9127",
+        "publicData": {}
+    },
+    "66a79c98-70e7-4bc4-8859-20776b024ec2": {
+        "id": "664b761b-7cb0-4c74-a032-b22537df5395",
+        "name": "PWA",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "66a79c98-70e7-4bc4-8859-20776b024ec2",
+        "publicData": {}
+    },
+    "d7d2c879-1783-4d58-a9bb-807f065d941e": {
+        "id": "6f82968d-906f-4836-9808-f8a2f9801147",
+        "name": "Dailymotion",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "d7d2c879-1783-4d58-a9bb-807f065d941e",
+        "publicData": {}
+    },
+    "f9ef41c3-1c53-4857-855b-f2f6a40b7186": {
+        "id": "3f91be4f-fb17-4a17-b191-8393491611d8",
+        "name": "Supabase",
+        "designId": "a9d5912f-b0a6-46b9-bbd9-f9557c8e7164",
+        "pluginId": "f9ef41c3-1c53-4857-855b-f2f6a40b7186",
+        "publicData": {
+            "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvdHp4cWthZ3B0Y29rcGF2aW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NTAwNjMsImV4cCI6MjA5MjAyNjA2M30.hxMfM3Wll6Al9n55FORzCkGACCZijOpHmTE0VSrN_88",
+            "projectUrl": "https://kotzxqkagptcokpaviol.supabase.co",
+            "customDomain": "",
+            "environments": {
+                "production": {
+                    "apiKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvdHp4cWthZ3B0Y29rcGF2aW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NTAwNjMsImV4cCI6MjA5MjAyNjA2M30.hxMfM3Wll6Al9n55FORzCkGACCZijOpHmTE0VSrN_88",
+                    "branch": null,
+                    "branchSlug": null,
+                    "projectUrl": "https://kotzxqkagptcokpaviol.supabase.co",
+                    "customDomain": "",
+                    "baseProjectRef": "kotzxqkagptcokpaviol"
+                }
+            },
+            "realtimeTables": {
+                "exams": true,
+                "likes": true,
+                "posts": true,
+                "tasks": true,
+                "users": true,
+                "admins": true,
+                "lessons": true,
+                "reviews": true,
+                "tickets": true,
+                "wallets": true,
+                "comments": true,
+                "messages": true,
+                "students": true,
+                "teachers": true,
+                "calendars": true,
+                "attendance": true,
+                "classrooms": true,
+                "post_media": true,
+                "violations": true,
+                "commissions": true,
+                "transcripts": true,
+                "twofa_codes": true,
+                "availability": true,
+                "transactions": true,
+                "user_devices": true,
+                "admin_actions": true,
+                "blocked_users": true,
+                "conversations": true,
+                "notifications": true,
+                "subscriptions": true,
+                "trial_surveys": true,
+                "user_settings": true,
+                "classroom_logs": true,
+                "lesson_reviews": true,
+                "package_orders": true,
+                "payout_methods": true,
+                "ticket_replies": true,
+                "user_blacklist": true,
+                "password_resets": true,
+                "teacher_reviews": true,
+                "payment_sessions": true,
+                "classroom_reviews": true,
+                "reported_messages": true,
+                "classroom_sessions": true,
+                "content_violations": true,
+                "lesson_commissions": true,
+                "user_relationships": true,
+                "commission_settings": true,
+                "security_violations": true,
+                "verification_tokens": true,
+                "subscription_history": true,
+                "subscription_lessons": true,
+                "floating_screen_usage": true,
+                "subscription_packages": true,
+                "subscription_renewals": true,
+                "recurring_availability": true,
+                "commission_calculations": true,
+                "recurring_unavailability": true,
+                "classroom_device_settings": true,
+                "user_notification_settings": true
+            }
+        }
+    }
+}

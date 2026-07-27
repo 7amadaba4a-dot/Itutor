@@ -1,0 +1,45 @@
+{
+    "metadata": {
+        "name": "languato-whiteboard",
+        "description": "A standalone collaborative whiteboard (Fabric.js) split out of the meeting-room component: drawing tools, shapes, multi-page, lock-for-student, and PNG export. Networking is NOT built in - it emits and receives update messages that the host page relays through another component's data channel.",
+        "keywords": ["whiteboard", "drawing", "canvas", "fabric", "collaborative", "lesson"],
+        "features": [
+            "Pen, highlighter, eraser, laser pointer, text, sticky note, rectangle, circle, line tools",
+            "Color swatches plus custom color picker and stroke width slider",
+            "Undo/redo, clear, grid or lined background, image upload",
+            "Multiple pages with add/prev/next navigation",
+            "Teacher-only lock that stops the student from drawing",
+            "Save the current page as a PNG to the user's own device",
+            "Emits an outbound message for every local change (sendUpdate) instead of talking to a server itself, so the host page can relay it over whatever channel it owns"
+        ],
+        "inherit": []
+    },
+    "properties": [
+        { "name": "isTeacher", "description": "Whether the current viewer is the teacher.", "type": "boolean", "defaultValue": false },
+        { "name": "locked", "description": "When true, only the teacher can draw.", "type": "boolean", "defaultValue": false },
+        { "name": "accentColor", "description": "Accent color for the active tool and lock button.", "type": "string", "defaultValue": "#007bff" },
+        { "name": "savedState", "description": "JSON string of a previously saved whiteboard state, loaded once on mount.", "type": "string", "defaultValue": "" }
+    ],
+    "states": [],
+    "events": [
+        { "name": "sendUpdate", "description": "Fires on every local drawing action.", "payload": { "value": "JSON string" } },
+        { "name": "changed", "description": "Fires whenever the whiteboard content changes, for persistence.", "payload": { "value": "JSON string" } },
+        { "name": "closeRequested", "description": "Fires when the user clicks the close button.", "payload": { "value": "" } }
+    ],
+    "localContext": [],
+    "actions": [
+        { "label": "Receive Remote Update", "actionName": "receiveUpdate", "description": "Applies an incoming whiteboard message.", "args": [{ "name": "payloadJson", "type": "string", "description": "JSON string of the message." }] },
+        { "label": "Load Saved State", "actionName": "loadState", "description": "Loads a previously saved whiteboard JSON state.", "args": [{ "name": "stateJson", "type": "string", "description": "JSON string of the saved state." }] }
+    ],
+    "slots": [],
+    "variables": [],
+    "specifications": [
+        "This component owns NO network connection.",
+        "The page is responsible for showing/hiding this component.",
+        "Give the root element a real height."
+    ],
+    "examples": [
+        { "description": "Teacher view, unlocked", "example": "{\"isTeacher\": true}" }
+    ],
+    "dependencies": []
+}

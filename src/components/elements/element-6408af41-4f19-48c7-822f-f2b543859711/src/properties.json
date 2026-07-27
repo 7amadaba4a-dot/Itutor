@@ -1,0 +1,10 @@
+[
+  {
+    "name": "license-key",
+    "type": "string",
+    "label": "license-key",
+    "description": "Your Despia API key",
+    "defaultValue": "",
+    "section": "settings"
+  }
+]

@@ -1,0 +1,45 @@
+{
+    "metadata": {
+        "name": "availability-grid-picker",
+        "description": "A weekly calendar-style grid for picking recurring availability by clicking or drag-selecting half-hour cells across 7 days.",
+        "keywords": ["availability", "calendar", "schedule", "grid", "weekly", "timetable"],
+        "features": [
+            "7-day x half-hour grid, click or click-and-drag across cells to toggle availability",
+            "Automatically merges contiguous selected half-hour cells per day into start/end time ranges",
+            "Pre-fills selection from an initialSlots prop (array of {day_of_week, start_time, end_time})",
+            "Exposes the merged result as a component variable so other elements/workflows can read it",
+            "Configurable visible hour range and start-of-week",
+            "Per-day 'select whole day' quick button under each day header to mark the entire visible range as available in one click"
+        ],
+        "inherit": []
+    },
+    "properties": [
+        { "name": "initialSlots", "description": "Existing slots to pre-select, as an array of {day_of_week: 0-6 (0=Sunday), start_time: 'HH:MM', end_time: 'HH:MM'}.", "type": "array", "defaultValue": [] },
+        { "name": "startHour", "description": "First visible hour on the grid (0-23).", "type": "number", "defaultValue": 6 },
+        { "name": "endHour", "description": "Last visible hour on the grid, exclusive of the final half-hour past it (0-23).", "type": "number", "defaultValue": 23 }
+    ],
+    "states": [],
+    "events": [
+        { "name": "change", "description": "Fires whenever the selection changes. Payload value is the merged slots array.", "payload": { "value": "array of {day_of_week, start_time, end_time}" } }
+    ],
+    "localContext": [],
+    "actions": [
+        { "label": "Clear all", "actionName": "clearAll", "description": "Deselects every cell.", "args": [] }
+    ],
+    "slots": [],
+    "variables": [
+        { "name": "selectedSlots", "description": "The current selection, merged into contiguous ranges per day: array of {day_of_week, start_time, end_time}.", "type": "array", "readonly": false }
+    ],
+    "specifications": [
+        "Days are always Sunday(0) through Saturday(6) as columns, left to right.",
+        "Rows are half-hour increments between startHour and endHour.",
+        "Click a single cell to toggle it. Press and drag across cells to paint multiple cells to the same state as the first cell clicked (select or deselect).",
+        "Contiguous selected half-hour cells within the same day column are merged into a single start_time/end_time range in the exported data — a teacher selecting 9:00, 9:30, and 10:00 produces one range 09:00-10:30, not three separate entries.",
+        "Each day header has a small 'All day' button that instantly selects every visible half-hour cell for that day.",
+        "Selection state is entirely local until read via the selectedSlots variable or the change event — nothing is persisted by the component itself."
+    ],
+    "examples": [
+        { "description": "Basic usage pre-filled from an existing availability array", "example": "{\"initialSlots\": \"variables['existing-availability']\", \"startHour\": 6, \"endHour\": 23}" }
+    ],
+    "dependencies": []
+}

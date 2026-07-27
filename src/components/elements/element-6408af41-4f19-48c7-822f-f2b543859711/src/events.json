@@ -1,0 +1,11 @@
+[
+  {
+    "name": "on-callback",
+    "type": "object",
+    "description": "General async callback bridge",
+    "sampleData": {
+      "sdk": "feature-name",
+      "data": {}
+      }
+  }
+]

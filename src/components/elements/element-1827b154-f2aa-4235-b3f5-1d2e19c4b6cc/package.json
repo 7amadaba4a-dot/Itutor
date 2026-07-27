@@ -1,0 +1,1 @@
+{"name":"ww-video-vimeo","repository":{"url":"https://github.com/weweb-assets/ww-video-vimeo"},"version":"3.1.0","scripts":{"build":"weweb build","serve":"weweb serve"},"dependencies":{"@vimeo/player":"^2.17.1"},"devDependencies":{"@vue/eslint-config-prettier":"^6.0.0"},"license":"MIT"}

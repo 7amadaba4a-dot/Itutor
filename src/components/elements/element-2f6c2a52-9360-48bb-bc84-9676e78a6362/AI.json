@@ -1,0 +1,265 @@
+{
+    "metadata": {
+        "name": "tutorzy-meeting-room",
+        "description": "A 1-on-1 teacher/student video meeting room with mic/camera controls (device picker), screen sharing, an Excalidraw-powered collaborative whiteboard (MIT licensed, free for commercial use), in-call chat with typing indicator, connection/audio-quality status, focus mode, keyboard shortcuts, local-only recording, and presence reporting used to confirm lesson attendance.",
+        "keywords": [
+            "video call",
+            "meeting",
+            "classroom",
+            "whiteboard",
+            "excalidraw",
+            "chat",
+            "webrtc",
+            "teacher",
+            "student",
+            "attendance",
+            "recording"
+        ],
+        "features": [
+            "Peer-to-peer video/audio call via PeerJS with a device picker for multiple mics/cameras",
+            "Screen sharing shows your own share large, peer shrinks to a corner tile; combined peer+local camera box during sharing",
+            "Whiteboard is now powered by the real Excalidraw React SDK (MIT license, no cost, no watermark), loaded via ES modules from a CDN with no build step",
+            "Excalidraw brings its own full toolbar, color/style panel, undo/redo, zoom, and shape tools natively - none of that is custom-built anymore",
+            "Whiteboard state syncs between teacher and student by sending Excalidraw's element array over the existing WebRTC data channel",
+            "Teacher can lock the whiteboard so the student can only view, not draw",
+            "Save exports the current whiteboard as a PNG using Excalidraw's own export utility",
+            "Chat with a typing indicator, notification sound, and a clear-chat button",
+            "Focus mode hides everything but video and whiteboard; keyboard shortcuts: space to mute, R to record, W to toggle whiteboard",
+            "Manual reconnect button appears automatically when the connection is weak, plus a separate audio-quality indicator",
+            "Local-only recording composed from both video feeds via canvas, no screen-picker dialog",
+            "Emits presence ticks (join / heartbeat / leave) so attendance can be recorded server-side"
+        ],
+        "inherit": []
+    },
+    "properties": [
+        {
+            "name": "lessonId",
+            "description": "Unique lesson/room identifier shared by both participants.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "roomToken",
+            "description": "Secret per-lesson token mixed into the WebRTC room id.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "userRole",
+            "description": "Current user's role: teacher or student.",
+            "type": "string",
+            "defaultValue": "student"
+        },
+        {
+            "name": "teacherName",
+            "description": "Display name of the teacher.",
+            "type": "string",
+            "defaultValue": "Teacher"
+        },
+        {
+            "name": "studentName",
+            "description": "Display name of the student.",
+            "type": "string",
+            "defaultValue": "Student"
+        },
+        {
+            "name": "roomHeight",
+            "description": "CSS height of the meeting room.",
+            "type": "string",
+            "defaultValue": "600px"
+        },
+        {
+            "name": "themeColor",
+            "description": "Accent color of the UI.",
+            "type": "string",
+            "defaultValue": "#007bff"
+        },
+        {
+            "name": "enableWhiteboard",
+            "description": "Show/hide the whiteboard button.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "enableScreenShare",
+            "description": "Show/hide the screen share button.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "enableChat",
+            "description": "Show/hide the in-call text chat.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "turnServerUrl",
+            "description": "TURN server url.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "turnUsername",
+            "description": "TURN server username.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "turnCredential",
+            "description": "TURN server credential/password.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "savedWhiteboardState",
+            "description": "JSON string of a previously saved whiteboard state, shape { elements: [...] }. NOTE: whiteboard states saved before the Excalidraw migration (Fabric.js format) are NOT compatible and will be silently ignored.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "lessonTitle",
+            "description": "Title shown in the top status bar.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "lessonEndIso",
+            "description": "ISO timestamp of when the lesson is scheduled to end. Powers the 5-minutes-left indicator.",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "showStatusBar",
+            "description": "Show/hide the top status bar.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "enableRaiseHand",
+            "description": "Show/hide the raise-hand button.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "enableReactions",
+            "description": "Show/hide the emoji reactions button.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "enableFullscreen",
+            "description": "Show/hide the fullscreen toggle button.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "enablePictureInPicture",
+            "description": "Reserved, currently unused.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "enablePipButton",
+            "description": "Show native Picture-in-Picture button.",
+            "type": "boolean",
+            "defaultValue": true
+        },
+        {
+            "name": "toolbarStyle",
+            "description": "glass or solid toolbar background (main call toolbar).",
+            "type": "string",
+            "defaultValue": "glass"
+        }
+    ],
+    "states": [],
+    "events": [
+        {
+            "name": "callStarted",
+            "description": "Fires once both participants are connected.",
+            "payload": {
+                "value": "JSON string: { lessonId }"
+            }
+        },
+        {
+            "name": "callEnded",
+            "description": "Fires after the user confirms they want to leave.",
+            "payload": {
+                "value": "JSON string: { lessonId }"
+            }
+        },
+        {
+            "name": "presence",
+            "description": "Fires on join, then every 30 seconds, then on leave.",
+            "payload": {
+                "value": "JSON string: { lessonId, event }"
+            }
+        },
+        {
+            "name": "whiteboardChanged",
+            "description": "Fires when whiteboard content changes (debounced ~1.2s). Payload is now { elements: [...Excalidraw elements] }, NOT the old Fabric.js format.",
+            "payload": {
+                "value": "JSON string"
+            }
+        },
+        {
+            "name": "chatMessageSent",
+            "description": "Fires when the local user sends a chat message.",
+            "payload": {
+                "value": "{ sender, text, timestamp, fromTeacher, lessonId }"
+            }
+        },
+        {
+            "name": "lateJoinReminderRequested",
+            "description": "Fires when the local user clicks 'Send reminder' on the late-join banner. Bind this to your own notification - the component itself does not send anything.",
+            "payload": {
+                "value": "JSON string: { lessonId, remoteName }"
+            }
+        }
+    ],
+    "localContext": [],
+    "actions": [
+        {
+            "label": "Toggle Whiteboard",
+            "actionName": "toggleWhiteboard",
+            "description": "Opens or closes the whiteboard modal.",
+            "args": []
+        },
+        {
+            "label": "Start Screen Share",
+            "actionName": "startScreenShare",
+            "description": "Starts (or stops) screen sharing.",
+            "args": []
+        },
+        {
+            "label": "Load Whiteboard State",
+            "actionName": "loadWhiteboardState",
+            "description": "Loads a previously saved whiteboard JSON state (Excalidraw format: { elements: [...] }).",
+            "args": [
+                {
+                    "name": "state",
+                    "type": "string",
+                    "description": "JSON string of the saved whiteboard state."
+                }
+            ]
+        }
+    ],
+    "slots": [],
+    "variables": [],
+    "specifications": [
+        "Root element has no hardcoded width/height; height is controlled via the roomHeight property.",
+        "Requires lessonId to be bound.",
+        "MAJOR CHANGE: the whiteboard engine switched from a hand-built Fabric.js implementation to the real Excalidraw SDK, loaded via ES module imports from esm.sh (no build step, no bundler).",
+        "Excalidraw is MIT licensed - completely free for commercial use, no watermark, no license key needed.",
+        "Excalidraw provides its own complete toolbar/color panel/undo-redo/zoom - none of that is custom code anymore.",
+        "REMOVED in this migration (not present in open-source Excalidraw, would need custom work to re-add): multi-page whiteboard support, multi-page PDF export, remote laser pointer / live cursor position, snap-to-grid, custom alignment guides, dark-mode canvas toggle, background pattern cycling.",
+        "This integration has NOT been verified in a live browser by the assistant - unlike the previous Fabric.js work, React-based rendering inside the iframe could not be tested through this text-based tool. Live testing by the user is required after publishing.",
+        "Whiteboard sync sends Excalidraw's full element array over the P2P data channel on every change (debounced ~180ms) - works the same way the old 'full sync' did, just with a different payload shape."
+    ],
+    "examples": [
+        {
+            "description": "Teacher joining lesson 42",
+            "example": "{\"lessonId\": \"42\", \"roomToken\": \"<room_token>\", \"userRole\": \"teacher\", \"lessonEndIso\": \"2026-07-24T15:30:00Z\"}"
+        }
+    ],
+    "dependencies": []
+}
