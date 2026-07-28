@@ -315,9 +315,9 @@ max-width:calc(100vw - 24px);
 .remote-label #remoteLabel { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:150px}
 .video-label { font-size:10.5px; padding:4px 9px}
 .video-label .role-badge { display:none}
-.local-wrap { top:14px !important; left:auto !important; right:12px !important; bottom:auto !important; width:96px; z-index:70}
+.local-wrap { top:14px; left:auto; right:12px; bottom:auto; width:122px; z-index:70; border-radius:18px; box-shadow:0 6px 18px rgba(0,0,0,0.35); }
+#localVideo, .local-avatar { width:122px; border-radius:18px; border-width:1.5px; border-color:rgba(255,255,255,0.22)}
 .local-wrap .video-label { display:none}
-#localVideo, .local-avatar { width:96px}
 .local-wrap .lock-toggle { display:none}
 .mobile-cam-toggle { display:flex !important; position:absolute; top:6px; left:6px; width:20px; height:20px; border-radius:50%; background:rgba(0,0,0,0.55); color:white; align-items:center; justify-content:center; font-size:10px; z-index:71; cursor:pointer}
 .local-wrap.mobile-hidden #localVideo,
@@ -1252,27 +1252,47 @@ window.addEventListener('mouseup', () => { dragging = false; });
 }
 function makeDraggable(el, onDragEnd) {
 let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0;
-el.addEventListener('mousedown', (e) => {
-if (e.target.closest('.lock-toggle')) return;
-if (el.classList.contains('locked')) return;
-dragging = true; el.classList.add('dragging');
-startX = e.clientX; startY = e.clientY;
-const rect = el.getBoundingClientRect();
-const parentRect = el.offsetParent ? el.offsetParent.getBoundingClientRect() : { left: 0, top: 0 };
-startLeft = rect.left - parentRect.left; startTop = rect.top - parentRect.top;
-e.preventDefault();
-});
-window.addEventListener('mousemove', (e) => {
-if (!dragging) return;
-const dx = e.clientX - startX; const dy = e.clientY - startY;
-el.style.left = Math.max(4, startLeft + dx) + 'px';
-el.style.top = Math.max(4, startTop + dy) + 'px';
-el.style.right = 'auto'; el.style.bottom = 'auto';
-});
-window.addEventListener('mouseup', () => {
-if (dragging && onDragEnd) onDragEnd();
-dragging = false; el.classList.remove('dragging');
-});
+
+function getPoint(e) {
+  if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  return { x: e.clientX, y: e.clientY };
+}
+
+function onDragStart(e) {
+  if (e.target.closest('.lock-toggle') || e.target.closest('.mobile-cam-toggle')) return;
+  if (el.classList.contains('locked')) return;
+  dragging = true; el.classList.add('dragging');
+  const p = getPoint(e);
+  startX = p.x; startY = p.y;
+  const rect = el.getBoundingClientRect();
+  const parentRect = el.offsetParent ? el.offsetParent.getBoundingClientRect() : { left: 0, top: 0 };
+  startLeft = rect.left - parentRect.left; startTop = rect.top - parentRect.top;
+  if (e.cancelable) e.preventDefault();
+}
+
+function onDragMove(e) {
+  if (!dragging) return;
+  const p = getPoint(e);
+  const dx = p.x - startX; const dy = p.y - startY;
+  el.style.left = Math.max(4, startLeft + dx) + 'px';
+  el.style.top = Math.max(4, startTop + dy) + 'px';
+  el.style.right = 'auto'; el.style.bottom = 'auto';
+  if (e.cancelable) e.preventDefault();
+}
+
+function onDragEndHandler() {
+  if (dragging && onDragEnd) onDragEnd();
+  dragging = false; el.classList.remove('dragging');
+}
+
+el.addEventListener('mousedown', onDragStart);
+window.addEventListener('mousemove', onDragMove);
+window.addEventListener('mouseup', onDragEndHandler);
+
+el.addEventListener('touchstart', onDragStart, { passive: false });
+window.addEventListener('touchmove', onDragMove, { passive: false });
+window.addEventListener('touchend', onDragEndHandler);
+window.addEventListener('touchcancel', onDragEndHandler);
 }
 function toggleLocalLock(evt) {
 evt.stopPropagation();
