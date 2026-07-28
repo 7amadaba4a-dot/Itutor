@@ -91,8 +91,8 @@ import wwobject4bbea6da38034029a6a1d7f9296a9cec from '@/components/elements/elem
 import wwobjecte2962a2203b34421b85e906177d2303f from '@/components/elements/element-e2962a22-03b3-4421-b85e-906177d2303f/ww-config.js';
 import wwobjectdeb10a015eef4aa190171b51c2ad6fd0 from '@/components/elements/element-deb10a01-5eef-4aa1-9017-1b51c2ad6fd0/ww-config.js';
 import wwobjectd7904e9dfc9a4d809e32728e097879ad from '@/components/elements/element-d7904e9d-fc9a-4d80-9e32-728e097879ad/ww-config.js';
-import wwobject2f6c2a52936048bbbc849676e78a6362 from '@/components/elements/element-2f6c2a52-9360-48bb-bc84-9676e78a6362/ww-config.js';
 import wwobject7dc3f25e7eb7468899e2e00aa81bdbad from '@/components/elements/element-7dc3f25e-7eb7-4688-99e2-e00aa81bdbad/ww-config.js';
+import wwobject2f6c2a52936048bbbc849676e78a6362 from '@/components/elements/element-2f6c2a52-9360-48bb-bc84-9676e78a6362/ww-config.js';
 import wwobject985570fcb3c04566800482ab3b30a11d from '@/components/elements/element-985570fc-b3c0-4566-8004-82ab3b30a11d/ww-config.js';
 import wwobject9ccf84b0e5424423869fb4828301ec49 from '@/components/elements/element-9ccf84b0-e542-4423-869f-b4828301ec49/ww-config.js';
 import wwobject27437c6de8d34f40a20b8320b88dd427 from '@/components/elements/element-27437c6d-e8d3-4f40-a20b-8320b88dd427/ww-config.js';
@@ -196,8 +196,8 @@ export const useComponentBasesStore = defineStore('componentBases', () => {
 'wwobject-e2962a22-03b3-4421-b85e-906177d2303f': getInheritedConfiguration({ ...wwobjecte2962a2203b34421b85e906177d2303f, name: 'wwobject-e2962a22-03b3-4421-b85e-906177d2303f' }),
 'wwobject-deb10a01-5eef-4aa1-9017-1b51c2ad6fd0': getInheritedConfiguration({ ...wwobjectdeb10a015eef4aa190171b51c2ad6fd0, name: 'wwobject-deb10a01-5eef-4aa1-9017-1b51c2ad6fd0' }),
 'wwobject-d7904e9d-fc9a-4d80-9e32-728e097879ad': getInheritedConfiguration({ ...wwobjectd7904e9dfc9a4d809e32728e097879ad, name: 'wwobject-d7904e9d-fc9a-4d80-9e32-728e097879ad' }),
-'wwobject-2f6c2a52-9360-48bb-bc84-9676e78a6362': getInheritedConfiguration({ ...wwobject2f6c2a52936048bbbc849676e78a6362, name: 'wwobject-2f6c2a52-9360-48bb-bc84-9676e78a6362' }),
 'wwobject-7dc3f25e-7eb7-4688-99e2-e00aa81bdbad': getInheritedConfiguration({ ...wwobject7dc3f25e7eb7468899e2e00aa81bdbad, name: 'wwobject-7dc3f25e-7eb7-4688-99e2-e00aa81bdbad' }),
+'wwobject-2f6c2a52-9360-48bb-bc84-9676e78a6362': getInheritedConfiguration({ ...wwobject2f6c2a52936048bbbc849676e78a6362, name: 'wwobject-2f6c2a52-9360-48bb-bc84-9676e78a6362' }),
 'wwobject-985570fc-b3c0-4566-8004-82ab3b30a11d': getInheritedConfiguration({ ...wwobject985570fcb3c04566800482ab3b30a11d, name: 'wwobject-985570fc-b3c0-4566-8004-82ab3b30a11d' }),
 'wwobject-9ccf84b0-e542-4423-869f-b4828301ec49': getInheritedConfiguration({ ...wwobject9ccf84b0e5424423869fb4828301ec49, name: 'wwobject-9ccf84b0-e542-4423-869f-b4828301ec49' }),
 'wwobject-27437c6d-e8d3-4f40-a20b-8320b88dd427': getInheritedConfiguration({ ...wwobject27437c6de8d34f40a20b8320b88dd427, name: 'wwobject-27437c6d-e8d3-4f40-a20b-8320b88dd427' }),

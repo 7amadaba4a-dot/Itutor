@@ -294,14 +294,14 @@ gap:8px;
 border-radius:14px;
 padding:7px 12px;
 font-size:10.5px;
-top:10px;
+top:calc(14px + env(safe-area-inset-top, 0px));
 max-width:calc(100vw - 24px);
 }
 .status-bar .title { display:none}
 .status-bar .rec-ind { display:none}
 .status-bar .time-left-chip { font-size:9px; padding:2px 6px}
 .remote-label {
-top:10px;
+top:calc(14px + env(safe-area-inset-top, 0px));
 left:10px;
 font-size:10.5px;
 padding:4px 9px;
@@ -312,7 +312,7 @@ max-width:calc(100vw - 24px);
 .remote-label #remoteLabel { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:150px}
 .video-label { font-size:10.5px; padding:4px 9px}
 .video-label .role-badge { display:none}
-.local-wrap { top:14px !important; left:auto !important; right:12px !important; bottom:auto !important; width:96px; z-index:70}
+.local-wrap { top:calc(14px + env(safe-area-inset-top, 0px)) !important; left:auto !important; right:12px !important; bottom:auto !important; width:96px; z-index:70}
 .local-wrap .video-label { display:none}
 #localVideo, .local-avatar { width:96px}
 .local-wrap .lock-toggle { display:none}
