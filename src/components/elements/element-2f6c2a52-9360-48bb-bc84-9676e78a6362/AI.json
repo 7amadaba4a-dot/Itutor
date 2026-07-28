@@ -27,7 +27,8 @@
             "Focus mode hides everything but video and whiteboard; keyboard shortcuts: space to mute, R to record, W to toggle whiteboard",
             "Manual reconnect button appears automatically when the connection is weak, plus a separate audio-quality indicator",
             "Local-only recording composed from both video feeds via canvas, no screen-picker dialog",
-            "Emits presence ticks (join / heartbeat / leave) so attendance can be recorded server-side"
+            "Emits presence ticks (join / heartbeat / leave) so attendance can be recorded server-side",
+            "Mobile-responsive: a CSS media query (max-width: 480px) reflows the crowded top status bar, remote/local labels, local camera preview size, and toolbar for narrow viewports (e.g. inside a native app's WebView) without changing anything on wider/desktop viewports"
         ],
         "inherit": []
     },
@@ -253,7 +254,8 @@
         "Excalidraw provides its own complete toolbar/color panel/undo-redo/zoom - none of that is custom code anymore.",
         "REMOVED in this migration (not present in open-source Excalidraw, would need custom work to re-add): multi-page whiteboard support, multi-page PDF export, remote laser pointer / live cursor position, snap-to-grid, custom alignment guides, dark-mode canvas toggle, background pattern cycling.",
         "This integration has NOT been verified in a live browser by the assistant - unlike the previous Fabric.js work, React-based rendering inside the iframe could not be tested through this text-based tool. Live testing by the user is required after publishing.",
-        "Whiteboard sync sends Excalidraw's full element array over the P2P data channel on every change (debounced ~180ms) - works the same way the old 'full sync' did, just with a different payload shape."
+        "Whiteboard sync sends Excalidraw's full element array over the P2P data channel on every change (debounced ~180ms) - works the same way the old 'full sync' did, just with a different payload shape.",
+        "Mobile-only CSS overrides live inside a single @media (max-width: 480px) block appended at the very end of the <style> tag. All rules above that block are the original desktop styles and are untouched by this change - narrow viewports (like the mobile app's WebView) get a reflowed status bar, smaller local camera preview, and a more compact toolbar; anything wider than 480px renders exactly as before."
     ],
     "examples": [
         {

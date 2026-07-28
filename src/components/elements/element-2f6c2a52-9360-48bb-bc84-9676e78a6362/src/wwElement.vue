@@ -266,6 +266,52 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .chat-input-row input { flex:1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px 12px; color:white}
 .chat-input-row button { background:var(--accent); border:none; color:white; border-radius:10px; padding:0 16px; cursor:pointer}
 .ToolIcon__library, [aria-label="Library"], [data-testid="library-button"] { display:none !important}
+
+/* ============================================================
+   MOBILE-ONLY OVERRIDES — everything below this comment only
+   applies when the viewport is narrow (e.g. inside the mobile
+   app's WebView). Nothing above this line is touched, so the
+   desktop/web experience is completely unaffected.
+   ============================================================ */
+@media (max-width: 480px) {
+.prejoin-card { flex-direction:column; padding:24px 20px; gap:20px; overflow-y:auto}
+.prejoin-video-wrap { flex:none; width:100%; aspect-ratio:4/3}
+.status-bar {
+flex-direction:column;
+align-items:flex-start;
+gap:5px;
+border-radius:14px;
+padding:8px 12px;
+font-size:10.5px;
+top:10px;
+max-width:calc(100vw - 24px);
+}
+.status-bar .title { display:none}
+.status-bar .time-left-chip { font-size:9.5px; padding:2px 8px}
+.remote-label {
+top:10px;
+left:10px;
+font-size:10.5px;
+padding:4px 9px;
+gap:4px;
+max-width:calc(100vw - 24px);
+}
+.remote-label .role-badge { display:none}
+.remote-label #remoteLabel { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:150px}
+.video-label { font-size:10.5px; padding:4px 9px}
+.video-label .role-badge { display:none}
+.local-wrap { top:auto; bottom:90px; left:12px; width:110px}
+#localVideo, .local-avatar { width:110px}
+.toolbar-wrap { gap:3px; padding:6px; bottom:12px; max-width:calc(100vw - 16px); flex-wrap:wrap; justify-content:center}
+.tool-btn { width:38px; height:38px; border-radius:10px; font-size:14px}
+.device-caret { height:38px}
+.end-btn { height:38px; padding:0 12px; font-size:13px}
+.bar-sep { height:20px}
+.whiteboard-container { width:98%; height:96%}
+.wb-header { padding:8px 12px; flex-wrap:wrap}
+.wb-peer-video, .wb-local-video { width:90px; height:64px}
+.chat-panel { width:86vw; right:-86vw}
+}
     </style>
 </head>
 <body>
