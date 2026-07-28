@@ -237,8 +237,11 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .app-mode .more-btn,
 .app-mode .overflow-tools,
 .app-mode .overflow-sep,
-.app-mode .device-caret,
 .app-mode .bar-sep { display:none !important}
+.app-mode.toolbar-wrap { gap:10px !important}
+.app-mode .tool-btn { width:50px !important; height:50px !important; font-size:19px !important}
+.app-mode .device-caret { width:22px !important; height:50px !important; font-size:11px !important}
+.app-mode .end-btn { height:50px !important; padding:0 18px !important; font-size:15px !important}
 .captions-bar { position:absolute; bottom:96px; left:50%; transform:translateX(-50%); z-index:97; max-width:80%; background:rgba(0,0,0,0.72); color:white; padding:10px 18px; border-radius:12px; font-size:15px; line-height:1.4; text-align:center; display:none}
 .captions-bar.show { display:block}
 .captions-bar .cc-speaker { font-size:11px; font-weight:700; color:#fbbf24; display:block; margin-bottom:2px}
@@ -443,7 +446,6 @@ max-width:calc(100vw - 24px);
     </div>
 </div>
 <div class="viewport" id="viewport">
-    <div id="debugBadge" style="position:absolute;top:2px;left:2px;z-index:999;background:red;color:white;font-size:9px;padding:3px 6px;border-radius:6px;max-width:96vw;word-break:break-all;">DEBUG isAppMode=${isAppMode} | prop=${JSON.stringify(this.content?.isAppMode)} | parentUrl=${(() => { try { return window.location.href; } catch(e) { return 'ERR:' + e.message; } })()}</div>
     <video id="remoteVideo" autoplay playsinline></video>
     <div class="avatar-circle show" id="remoteAvatar">
         ${remotePhotoUrl ? `<img src="${remotePhotoUrl}" class="circle-photo" alt="">` : `<div class="circle">${initialsRemote}</div>`}
