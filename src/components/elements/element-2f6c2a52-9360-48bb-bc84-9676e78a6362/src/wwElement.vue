@@ -840,7 +840,7 @@ try { if (localStream) localStream.getTracks().forEach(t => t.stop()); } catch (
 try { if (screenStream) screenStream.getTracks().forEach(t => t.stop()); } catch (e) {}
 try { if (currentCall) currentCall.close(); } catch (e) {}
 try { peer.destroy(); } catch (e) {}
-notifyParent('callEnded', { lessonId: LESSON_ID });
+notifyParent('callEnded', { lessonId: LESSON_ID, role: isTeacher ? 'teacher' : 'student' });
 }
 function cancelEndCall() {
 const modal = document.getElementById('leaveConfirmModal');
