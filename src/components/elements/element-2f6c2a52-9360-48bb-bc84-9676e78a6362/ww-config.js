@@ -26,6 +26,7 @@ export default {
         enablePictureInPicture: { label: { en: 'PiP on Whiteboard' }, type: 'OnOff', bindable: true, section: 'settings', defaultValue: true },
         enablePipButton: { label: { en: 'Enable PiP Button' }, type: 'OnOff', bindable: true, section: 'settings', defaultValue: true },
         toolbarStyle: { label: { en: 'Toolbar Style' }, type: 'TextSelect', options: { options: [ { value: 'glass', label: 'Glass' }, { value: 'solid', label: 'Solid' } ] }, bindable: true, section: 'style', defaultValue: 'glass' },
+        isAppMode: { label: { en: 'App Mode (mic/camera/whiteboard only)' }, type: 'OnOff', bindable: true, section: 'settings', defaultValue: false },
     },
     actions: [
         { label: { en: 'Toggle Whiteboard' }, action: 'toggleWhiteboard' },

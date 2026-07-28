@@ -183,6 +183,12 @@
             "description": "glass or solid toolbar background (main call toolbar).",
             "type": "string",
             "defaultValue": "glass"
+        },
+        {
+            "name": "isAppMode",
+            "description": "When true, the toolbar shows ONLY mic, camera, whiteboard, and leave - hiding everything else (chat, hand-raise, reactions, fullscreen, PiP, focus mode, captions, record, screen share, and the responsive 'More' overflow menu) regardless of viewport width. Intended to be driven by an explicit flag from the caller (e.g. a URL parameter the native mobile app adds when loading the page) rather than by screen size, so a narrow BROWSER tab still gets the normal responsive tablet/mobile behavior while the native app always gets this fixed minimal toolbar.",
+            "type": "boolean",
+            "defaultValue": false
         }
     ],
     "states": [],

@@ -64,6 +64,7 @@ const enableFullscreen = this.content?.enableFullscreen !== false;
 const showStatusBar = this.content?.showStatusBar !== false;
 const enablePip = this.content?.enablePictureInPicture !== false;
 const enablePipButton = this.content?.enablePipButton !== false;
+const isAppMode = this.content?.isAppMode === true;
 const iceServers = [
 { url: 'stun:stun.l.google.com:19302' },
 { url: 'stun:stun1.l.google.com:19302' },
@@ -217,6 +218,27 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .more-btn { display:none}
 .overflow-sep { display:none}
 .overflow-tools { display:flex; align-items:center; gap:6px}
+/* App mode: driven by an explicit isAppMode flag (set via a URL parameter the
+   mobile app passes when loading the page), NOT by viewport width - so a
+   phone-sized BROWSER tab still gets the normal responsive tablet/mobile
+   behavior further below, while the app itself always shows only mic,
+   camera, whiteboard and leave, at any width. !important is used deliberately
+   throughout so this can never be silently overridden by cascade/source-order
+   issues elsewhere in this stylesheet. */
+.app-mode #chat-btn,
+.app-mode #hand-btn,
+.app-mode #reaction-btn,
+.app-mode #fs-btn,
+.app-mode #pip-btn,
+.app-mode #focus-btn,
+.app-mode #cc-btn,
+.app-mode #rec-btn,
+.app-mode #share-btn,
+.app-mode .more-btn,
+.app-mode .overflow-tools,
+.app-mode .overflow-sep,
+.app-mode .device-caret,
+.app-mode .bar-sep { display:none !important}
 .captions-bar { position:absolute; bottom:96px; left:50%; transform:translateX(-50%); z-index:97; max-width:80%; background:rgba(0,0,0,0.72); color:white; padding:10px 18px; border-radius:12px; font-size:15px; line-height:1.4; text-align:center; display:none}
 .captions-bar.show { display:block}
 .captions-bar .cc-speaker { font-size:11px; font-weight:700; color:#fbbf24; display:block; margin-bottom:2px}
@@ -476,13 +498,13 @@ max-width:calc(100vw - 24px);
         <button data-e="🤔">🤔</button>
     </div>
 
-    <div class="toolbar-wrap">
+    <div class="toolbar-wrap ${isAppMode ? 'app-mode' : ''}">
         <div class="device-group"><div class="tool-btn" onclick="toggleMic()" id="mic-btn" title="Mute"><i class="fas fa-microphone"></i></div><div class="device-caret" onclick="toggleDevicePicker(event,'audio')" title="Choose microphone"><i class="fas fa-chevron-up"></i></div></div>
         <div class="device-group"><div class="tool-btn" onclick="toggleVideo()" id="video-btn" title="Camera"><i class="fas fa-video"></i></div><div class="device-caret" onclick="toggleDevicePicker(event,'video')" title="Choose camera"><i class="fas fa-chevron-up"></i></div></div>
         <div class="device-picker" id="devicePicker"></div>
         <span class="bar-sep"></span>
         ${enableScreenShare ? '<div class="tool-btn" onclick="toggleScreenShare()" id="share-btn" title="Share Screen"><i class="fas fa-arrow-up-from-bracket"></i></div>' : ''}
-        ${enableWhiteboard ? '<div class="tool-btn" onclick="openWhiteboard()" title="Whiteboard"><i class="fas fa-square-pen"></i></div>' : ''}
+        ${enableWhiteboard ? '<div class="tool-btn" onclick="openWhiteboard()" id="wb-btn" title="Whiteboard"><i class="fas fa-square-pen"></i></div>' : ''}
         ${enableChat ? '<div class="tool-btn" onclick="toggleChatPanel()" title="Chat" id="chat-btn"><i class="fas fa-comment"></i><span class="badge" id="chatBadge" style="display:none;">0</span></div>' : ''}
         <span class="bar-sep overflow-sep" id="overflowSep"></span>
         <div class="overflow-tools" id="overflowTools">
