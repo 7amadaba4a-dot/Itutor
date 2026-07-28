@@ -79,6 +79,8 @@ const initialsRemote = (remoteName || '?').trim().charAt(0).toUpperCase();
 return `<!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"><\/script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,6 +148,7 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .local-wrap { position:absolute; top:96px; left:20px; z-index:50; width:210px; pointer-events:auto; cursor:grab}
 .local-wrap.dragging { cursor:grabbing}
 .local-wrap .lock-toggle { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:rgba(0,0,0,0.5); color:white; display:flex; align-items:center; justify-content:center; font-size:11px; z-index:52; cursor:pointer}
+.mobile-cam-toggle { display:none}
 .local-wrap.locked .lock-toggle { color:#fbbf24}
 #localVideo { width:210px; aspect-ratio:16/11; border-radius:16px; border:2px solid rgba(255,255,255,0.14); background:#16161a; object-fit:cover; display:block; transform:scaleX(-1)}
 .local-avatar { position:absolute; inset:0; width:210px; aspect-ratio:16/11; border-radius:16px; z-index:51; display:none; align-items:center; justify-content:center}
@@ -300,13 +303,21 @@ max-width:calc(100vw - 24px);
 .remote-label #remoteLabel { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:150px}
 .video-label { font-size:10.5px; padding:4px 9px}
 .video-label .role-badge { display:none}
-.local-wrap { top:auto; bottom:90px; left:12px; width:110px}
-#localVideo, .local-avatar { width:110px}
-.toolbar-wrap { gap:3px; padding:6px; bottom:12px; max-width:calc(100vw - 16px); flex-wrap:wrap; justify-content:center}
-.tool-btn { width:38px; height:38px; border-radius:10px; font-size:14px}
-.device-caret { height:38px}
-.end-btn { height:38px; padding:0 12px; font-size:13px}
-.bar-sep { height:20px}
+.local-wrap { top:14px !important; left:auto !important; right:12px !important; bottom:auto !important; width:96px; z-index:70}
+#localVideo, .local-avatar { width:96px}
+.local-wrap .lock-toggle { display:none}
+.mobile-cam-toggle { display:flex !important; position:absolute; top:6px; left:6px; width:20px; height:20px; border-radius:50%; background:rgba(0,0,0,0.55); color:white; align-items:center; justify-content:center; font-size:10px; z-index:71; cursor:pointer}
+.local-wrap.mobile-hidden #localVideo,
+.local-wrap.mobile-hidden .local-avatar,
+.local-wrap.mobile-hidden .video-label { display:none !important}
+.local-wrap.mobile-hidden { width:32px; height:32px; background:rgba(0,0,0,0.5); border-radius:16px}
+.toolbar-wrap { gap:5px; padding:6px; bottom:12px; max-width:calc(100vw - 16px); flex-wrap:wrap; justify-content:center}
+.tool-btn { width:42px; height:42px; border-radius:11px; font-size:15px}
+.device-caret { height:42px}
+.end-btn { height:42px; padding:0 14px; font-size:13px}
+.bar-sep { height:22px}
+/* Only the essentials on mobile: mic, camera, screen share, whiteboard, leave */
+#chat-btn, #hand-btn, #reaction-btn, #fs-btn, #pip-btn, #focus-btn, #rec-btn { display:none !important}
 .whiteboard-container { width:98%; height:96%}
 .wb-header { padding:8px 12px; flex-wrap:wrap}
 .wb-peer-video, .wb-local-video { width:90px; height:64px}
@@ -371,6 +382,7 @@ max-width:calc(100vw - 24px);
 
     <div class="local-wrap" id="localWrap">
         <div class="lock-toggle" id="localLockToggle" onclick="toggleLocalLock(event)" title="Lock/unlock position"><i class="fas fa-lock-open"></i></div>
+        <div class="mobile-cam-toggle" id="mobileCamToggle" onclick="toggleMobileLocalVideo(event)" title="Hide/show your camera preview"><i class="fas fa-eye"></i></div>
         <video id="localVideo" autoplay muted playsinline></video>
         <div class="local-avatar" id="localAvatar"><div class="circle-sm">${initialsLocal}</div></div>
         <div class="video-label"><span class="mic-dot" id="micDot"></span> ${userName}<span class="role-badge">${isTeacher ? 'Teacher' : 'Student'}</span></div>
@@ -1157,6 +1169,15 @@ const wrap = document.getElementById('localWrap');
 const icon = document.querySelector('#localLockToggle i');
 if (wrap) wrap.classList.toggle('locked', localCamLocked);
 if (icon) icon.className = localCamLocked ? 'fas fa-lock' : 'fas fa-lock-open';
+}
+let mobileLocalVideoHidden = false;
+function toggleMobileLocalVideo(evt) {
+evt.stopPropagation();
+mobileLocalVideoHidden = !mobileLocalVideoHidden;
+const wrap = document.getElementById('localWrap');
+const icon = document.querySelector('#mobileCamToggle i');
+if (wrap) wrap.classList.toggle('mobile-hidden', mobileLocalVideoHidden);
+if (icon) icon.className = mobileLocalVideoHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
 }
 function initLocalCameraDrag() {
 const wrap = document.getElementById('localWrap');
