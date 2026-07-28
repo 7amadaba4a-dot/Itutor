@@ -48,6 +48,9 @@ const teacherName = this.content?.teacherName || 'Teacher';
 const studentName = this.content?.studentName || 'Student';
 const userName = isTeacher ? teacherName : studentName;
 const remoteName = isTeacher ? studentName : teacherName;
+const teacherPhotoUrl = this.content?.teacherPhotoUrl || '';
+const studentPhotoUrl = this.content?.studentPhotoUrl || '';
+const remotePhotoUrl = isTeacher ? studentPhotoUrl : teacherPhotoUrl;
 const lessonTitle = this.content?.lessonTitle || '';
 const lessonEndIso = this.content?.lessonEndIso || '';
 const accent = this.content?.themeColor || '#007bff';
@@ -146,6 +149,7 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .avatar-circle { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; gap:18px; z-index:15}
 .avatar-circle.show { display:flex}
 .circle { width:96px; height:96px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; font-size:36px; font-weight:600; color:rgba(255,255,255,0.85)}
+.circle-photo { width:96px; height:96px; border-radius:50%; object-fit:cover; border:1px solid rgba(255,255,255,0.2)}
 .waiting-title { font-size:16px; font-weight:600; color:white; margin:0; text-align:center; padding:0 24px}
 .local-wrap { position:absolute; top:96px; left:20px; z-index:50; width:210px; pointer-events:auto; cursor:grab}
 .local-wrap.dragging { cursor:grabbing}
@@ -207,9 +211,11 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .hand-banner.show { opacity:1}
 .time-left-chip { background:rgba(245,158,11,0.18); color:#fbbf24; padding:3px 10px; border-radius:999px; font-size:11.5px}
 .reconnect-btn { width:24px; height:24px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; color:#e5e5e5}
-.late-join-banner { position:absolute; top:64px; left:50%; transform:translateX(-50%); z-index:96; background:rgba(30,30,34,0.92); color:white; padding:9px 14px; border-radius:12px; font-size:12.5px; display:flex; align-items:center; gap:10px}
-.late-join-banner button { background:var(--accent); color:white; border:none; padding:5px 12px; border-radius:8px; cursor:pointer; font-size:12px}
-.late-join-banner .ljb-dismiss { background:transparent; color:#9ca3af; padding:0 4px; font-size:15px}
+.late-join-banner { position:absolute; top:64px; left:50%; transform:translateX(-50%); z-index:96; background:rgba(24,24,28,0.96); color:white; padding:16px 18px; border-radius:16px; font-size:13px; display:flex; flex-direction:column; gap:12px; width:min(88vw, 320px); box-shadow:0 8px 24px rgba(0,0,0,0.35)}
+.late-join-banner-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
+.late-join-banner #lateJoinText { line-height:1.5; color:rgba(255,255,255,0.9)}
+.late-join-banner button { background:var(--accent); color:white; border:none; padding:11px; border-radius:10px; cursor:pointer; font-size:13px; font-weight:600; width:100%}
+.late-join-banner .ljb-dismiss { background:transparent; color:#9ca3af; padding:0; font-size:18px; width:auto; line-height:1; flex:none}
 .focus-mode .status-bar, .focus-mode .reaction-picker, .focus-mode #chat-btn, .focus-mode #hand-btn, .focus-mode #reaction-btn { display:none !important}
 .camera-off-nudge { position:absolute; bottom:100px; right:20px; background:rgba(30,30,34,0.92); color:#fbbf24; padding:8px 14px; border-radius:10px; font-size:12px; z-index:96}
 .role-badge { font-size:9.5px; padding:1px 6px; border-radius:5px; margin-left:5px; background:rgba(255,255,255,0.14); color:#e5e5e5; vertical-align:1px}
@@ -315,11 +321,16 @@ max-width:calc(100vw - 24px);
 .local-wrap.mobile-hidden .local-avatar,
 .local-wrap.mobile-hidden .video-label { display:none !important}
 .local-wrap.mobile-hidden { width:32px; height:32px; background:rgba(0,0,0,0.5); border-radius:16px}
-.toolbar-wrap { gap:6px; padding:6px 10px; bottom:14px; max-width:calc(100vw - 20px); flex-wrap:nowrap; justify-content:center}
-.tool-btn { width:40px; height:40px; border-radius:11px; font-size:15px; flex:none}
-.device-caret { height:40px; flex:none}
-.end-btn { height:40px; padding:0 14px; font-size:13px; flex:none; white-space:nowrap}
-.bar-sep { height:22px; flex:none}
+.toolbar-wrap { gap:8px; padding:8px 12px; bottom:22px; max-width:calc(100vw - 20px); flex-wrap:nowrap; justify-content:center}
+.tool-btn { width:44px; height:44px; border-radius:12px; font-size:16px; flex:none}
+.device-caret { height:44px; flex:none}
+.end-btn { height:44px; padding:0 16px; font-size:13.5px; flex:none; white-space:nowrap}
+.bar-sep { height:24px; flex:none}
+/* Only one separator survives on mobile (mic/cam group vs. share+whiteboard) -
+   the other two sit between buttons that are entirely hidden on mobile, which
+   left two blank separator lines stuck together right before Leave. */
+.toolbar-wrap .bar-sep:nth-of-type(2),
+.toolbar-wrap .bar-sep:nth-of-type(3) { display:none}
 /* Only the essentials on mobile: mic, camera, screen share, whiteboard, leave */
 #chat-btn, #hand-btn, #reaction-btn, #fs-btn, #pip-btn, #focus-btn, #rec-btn { display:none !important}
 .whiteboard-container { width:98%; height:96%}
@@ -380,7 +391,7 @@ max-width:calc(100vw - 24px);
 <div class="viewport" id="viewport">
     <video id="remoteVideo" autoplay playsinline></video>
     <div class="avatar-circle show" id="remoteAvatar">
-        <div class="circle">${initialsRemote}</div>
+        ${remotePhotoUrl ? `<img src="${remotePhotoUrl}" class="circle-photo" alt="">` : `<div class="circle">${initialsRemote}</div>`}
         <p class="waiting-title" id="waitingTitle">Waiting for ${remoteName} to join</p>
     </div>
     <div class="remote-label" id="remoteLabelWrap" style="display:none;"><span id="remoteLabel">${remoteName}</span><span class="role-badge">${isTeacher ? 'Student' : 'Teacher'}</span><i id="peerMic" class="fas fa-microphone ok"></i><i id="peerCam" class="fas fa-video ok"></i></div>
@@ -411,9 +422,11 @@ max-width:calc(100vw - 24px);
         <span class="reconnect-btn" id="reconnectBtn" onclick="manualReconnect()" style="display:none;" title="Force reconnect"><i class="fas fa-rotate"></i></span>
     </div>
     <div class="late-join-banner" id="lateJoinBanner" style="display:none;">
-        <span id="lateJoinText"></span>
+        <div class="late-join-banner-top">
+            <span id="lateJoinText"></span>
+            <button class="ljb-dismiss" onclick="dismissLateJoinBanner()">&times;</button>
+        </div>
         <button onclick="sendLateJoinReminder()">Send reminder</button>
-        <button class="ljb-dismiss" onclick="dismissLateJoinBanner()">&times;</button>
     </div>
     <div class="conn-panel" id="connPanel">
         <div class="cp-row"><span>Your connection</span><b id="cpMine">checking</b></div>

@@ -6,6 +6,8 @@ export default {
         userRole: { label: { en: 'User Role' }, type: 'TextSelect', options: { options: [ { value: 'teacher', label: 'Teacher' }, { value: 'student', label: 'Student' } ] }, bindable: true, section: 'settings', defaultValue: 'student' },
         teacherName: { label: { en: 'Teacher Name' }, type: 'Text', bindable: true, section: 'settings', defaultValue: 'Teacher' },
         studentName: { label: { en: 'Student Name' }, type: 'Text', bindable: true, section: 'settings', defaultValue: 'Student' },
+        teacherPhotoUrl: { label: { en: 'Teacher Photo URL' }, type: 'Text', bindable: true, section: 'settings', defaultValue: '' },
+        studentPhotoUrl: { label: { en: 'Student Photo URL' }, type: 'Text', bindable: true, section: 'settings', defaultValue: '' },
         roomHeight: { label: { en: 'Room Height' }, type: 'Length', bindable: true, responsive: true, section: 'style', defaultValue: '600px' },
         themeColor: { label: { en: 'Theme Color' }, type: 'Color', bindable: true, section: 'style', defaultValue: '#007bff' },
         enableWhiteboard: { label: { en: 'Enable Whiteboard' }, type: 'OnOff', bindable: true, section: 'settings', defaultValue: true },

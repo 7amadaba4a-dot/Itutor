@@ -64,6 +64,18 @@
             "defaultValue": "Student"
         },
         {
+            "name": "teacherPhotoUrl",
+            "description": "Teacher's profile photo URL, shown as the big centered avatar while waiting for the teacher to join (falls back to an initial-letter circle if empty).",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
+            "name": "studentPhotoUrl",
+            "description": "Student's profile photo URL, shown as the big centered avatar while waiting for the student to join (falls back to an initial-letter circle if empty).",
+            "type": "string",
+            "defaultValue": ""
+        },
+        {
             "name": "roomHeight",
             "description": "CSS height of the meeting room.",
             "type": "string",
