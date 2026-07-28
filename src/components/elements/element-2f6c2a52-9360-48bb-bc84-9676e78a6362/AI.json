@@ -28,6 +28,7 @@
             "Manual reconnect button appears automatically when the connection is weak, plus a separate audio-quality indicator",
             "Local-only recording composed from both video feeds via canvas, no screen-picker dialog",
             "Emits presence ticks (join / heartbeat / leave) so attendance can be recorded server-side",
+            "Optional live captions (speech-to-text only, no translation) using the browser's own free built-in speech recognition - each side transcribes its own mic and sends the text to the peer over the existing data channel. NOT supported on iOS Safari/WebView (including inside the mobile app on iOS) - the captions button auto-hides there; works on desktop Chrome/Edge/Safari and Chrome on Android.",
             "Mobile-responsive: a CSS media query (max-width: 480px) reflows the crowded top status bar, remote/local labels, local camera preview size, and toolbar for narrow viewports (e.g. inside a native app's WebView) without changing anything on wider/desktop viewports"
         ],
         "inherit": []

@@ -192,6 +192,9 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .toolbar-wrap { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); z-index:100; display:flex; align-items:center; gap:6px; padding:8px; border-radius:22px; transition:transform .34s cubic-bezier(.22,.75,.3,1), opacity .24s ease; ${barStyle === 'glass' ? 'background:rgba(20,20,24,0.55);' :'background:#1c1c20;'} }
 .toolbar-wrap.tucked { transform:translateX(-50%) translateY(150%); opacity:0; pointer-events:none}
 .tool-btn { width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:white; cursor:pointer; background:rgba(255,255,255,0.05); transition:transform .12s cubic-bezier(.34,1.56,.64,1), background .15s ease}
+.captions-bar { position:absolute; bottom:96px; left:50%; transform:translateX(-50%); z-index:97; max-width:80%; background:rgba(0,0,0,0.72); color:white; padding:10px 18px; border-radius:12px; font-size:15px; line-height:1.4; text-align:center; display:none}
+.captions-bar.show { display:block}
+.captions-bar .cc-speaker { font-size:11px; font-weight:700; color:#fbbf24; display:block; margin-bottom:2px}
 .tool-btn:hover { background:rgba(255,255,255,0.12)}
 .tool-btn:active { transform:scale(0.86)}
 .end-btn:active { transform:scale(0.96)}
@@ -294,14 +297,14 @@ gap:8px;
 border-radius:14px;
 padding:7px 12px;
 font-size:10.5px;
-top:calc(14px + env(safe-area-inset-top, 0px));
+top:14px;
 max-width:calc(100vw - 24px);
 }
 .status-bar .title { display:none}
 .status-bar .rec-ind { display:none}
 .status-bar .time-left-chip { font-size:9px; padding:2px 6px}
 .remote-label {
-top:calc(14px + env(safe-area-inset-top, 0px));
+top:14px;
 left:10px;
 font-size:10.5px;
 padding:4px 9px;
@@ -312,7 +315,7 @@ max-width:calc(100vw - 24px);
 .remote-label #remoteLabel { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:150px}
 .video-label { font-size:10.5px; padding:4px 9px}
 .video-label .role-badge { display:none}
-.local-wrap { top:calc(14px + env(safe-area-inset-top, 0px)) !important; left:auto !important; right:12px !important; bottom:auto !important; width:96px; z-index:70}
+.local-wrap { top:14px !important; left:auto !important; right:12px !important; bottom:auto !important; width:96px; z-index:70}
 .local-wrap .video-label { display:none}
 #localVideo, .local-avatar { width:96px}
 .local-wrap .lock-toggle { display:none}
@@ -421,6 +424,7 @@ max-width:calc(100vw - 24px);
         <span class="rec-ind" id="recDot"><span class="rec-blob"></span>Recording locally</span>
         <span class="reconnect-btn" id="reconnectBtn" onclick="manualReconnect()" style="display:none;" title="Force reconnect"><i class="fas fa-rotate"></i></span>
     </div>
+    <div class="captions-bar" id="captionsBar"></div>
     <div class="late-join-banner" id="lateJoinBanner" style="display:none;">
         <div class="late-join-banner-top">
             <span id="lateJoinText"></span>
@@ -457,6 +461,7 @@ max-width:calc(100vw - 24px);
         ${enableFullscreen ? '<div class="tool-btn" onclick="toggleFullscreen()" id="fs-btn" title="Fullscreen"><i class="fas fa-expand"></i></div>' : ''}
         ${enablePipButton ? '<div class="tool-btn" onclick="toggleNativePip()" id="pip-btn" title="Picture in Picture"><i class="fas fa-clone"></i></div>' : ''}
         <div class="tool-btn" onclick="toggleFocusMode()" id="focus-btn" title="Focus mode"><i class="fas fa-compress"></i></div>
+        <div class="tool-btn" onclick="toggleCaptions()" id="cc-btn" title="Live captions"><i class="fas fa-closed-captioning"></i></div>
         <div class="tool-btn" onclick="toggleRecording()" id="rec-btn" title="Record on my device"><i class="fas fa-circle"></i></div>
         <span class="bar-sep"></span>
         <button class="end-btn" onclick="endCall()"><i class="fas fa-phone-slash"></i> Leave</button>
@@ -847,6 +852,7 @@ const modal = document.getElementById('leaveConfirmModal');
 if (modal) modal.style.display = 'none';
 }
 async function toggleScreenShare() {
+if (!screenShareSupported()) { flash('Screen sharing is not available on this device'); return; }
 const btn = document.getElementById('share-btn');
 try {
 if (!screenStream) {
@@ -1021,6 +1027,80 @@ clearTimeout(b._t);
 b._t = setTimeout(() => b.classList.remove('show'), 4000);
 }
 function toggleReactionPicker() { document.getElementById('reactionPicker').classList.toggle('open'); }
+
+// --- Live captions (speech-to-text only, no translation) ---------------
+// Uses the browser's own free built-in speech recognition (Chrome/Edge/Safari
+// desktop support it; Chrome Android does too - iOS Safari mobile does not).
+// Each side transcribes its OWN mic locally, then sends the text to the peer
+// over the same WebRTC data channel already used for chat/whiteboard, so both
+// participants see captions for whoever is talking.
+let captionsOn = false;
+let recognizer = null;
+let captionHideTimer = null;
+
+function captionsSupported() {
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+
+function screenShareSupported() {
+  return !!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia);
+}
+
+function showCaption(sender, text, isFinal) {
+  const bar = document.getElementById('captionsBar');
+  if (!bar || !text) return;
+  bar.innerHTML = '<span class="cc-speaker">' + (sender || '') + '</span>' + text;
+  bar.classList.add('show');
+  clearTimeout(captionHideTimer);
+  if (isFinal) {
+    captionHideTimer = setTimeout(() => { bar.classList.remove('show'); }, 4000);
+  }
+}
+
+function sendCaption(text, isFinal) {
+  if (dataConn && dataConn.open) dataConn.send({ type: 'caption', sender: USER_NAME, text, final: isFinal });
+}
+
+function startCaptions() {
+  if (!captionsSupported()) { flash('Live captions are not supported on this browser'); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognizer = new SR();
+  recognizer.continuous = true;
+  recognizer.interimResults = true;
+  recognizer.onresult = (event) => {
+    let text = '';
+    let isFinal = false;
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      text += event.results[i][0].transcript;
+      if (event.results[i].isFinal) isFinal = true;
+    }
+    text = text.trim();
+    if (!text) return;
+    showCaption(USER_NAME, text, isFinal);
+    sendCaption(text, isFinal);
+  };
+  recognizer.onerror = () => {
+    // Auto-restart on transient errors (e.g. brief silence timeouts) while captions are still on
+    if (captionsOn) { try { recognizer.start(); } catch (e) {} }
+  };
+  recognizer.onend = () => {
+    if (captionsOn) { try { recognizer.start(); } catch (e) {} }
+  };
+  try { recognizer.start(); } catch (e) {}
+}
+
+function stopCaptions() {
+  if (recognizer) { try { recognizer.stop(); } catch (e) {} recognizer = null; }
+  const bar = document.getElementById('captionsBar');
+  if (bar) bar.classList.remove('show');
+}
+
+function toggleCaptions() {
+  captionsOn = !captionsOn;
+  const btn = document.getElementById('cc-btn');
+  if (btn) btn.classList.toggle('accent-active', captionsOn);
+  if (captionsOn) startCaptions(); else stopCaptions();
+}
 let mediaRecorder = null, recordedChunks = [], recCanvas = null, recTimer = null, recAudioCtx = null;
 function recordingSupported() {
 return !!(window.MediaRecorder && HTMLCanvasElement.prototype.captureStream);
@@ -1128,6 +1208,14 @@ btn.onclick = () => { sendReaction(btn.getAttribute('data-e')); document.getElem
 if (!recordingSupported()) {
 const rb = document.getElementById('rec-btn');
 if (rb) rb.style.display = 'none';
+}
+if (!captionsSupported()) {
+const cc = document.getElementById('cc-btn');
+if (cc) cc.style.display = 'none';
+}
+if (!screenShareSupported()) {
+const sb = document.getElementById('share-btn');
+if (sb) sb.style.display = 'none';
 }
 const video = document.getElementById('remoteVideo');
 const btn = document.getElementById('pip-btn');
@@ -1449,6 +1537,7 @@ if (!msg || !msg.type) return;
 if (msg.type === 'chat') { appendChatMessage(msg, false); playNotifySound(); hideTypingIndicator(); return; }
 if (msg.type === 'typing') { showTypingIndicator(msg.sender); return; }
 if (msg.type === 'reaction') { spawnReactionFloat(msg.emoji); return; }
+if (msg.type === 'caption') { showCaption(msg.sender, msg.text, msg.final); return; }
 if (msg.type === 'hand') { if (msg.raised) { showHandBanner((msg.sender || REMOTE_NAME) + ' raised a hand'); playNotifySound(); } return; }
 if (msg.type === 'state') { applyPeerState(msg); return; }
 if (msg.type !== 'whiteboard') return;
