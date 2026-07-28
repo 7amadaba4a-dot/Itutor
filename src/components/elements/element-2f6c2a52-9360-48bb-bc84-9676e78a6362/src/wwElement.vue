@@ -282,17 +282,18 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .prejoin-card { flex-direction:column; padding:24px 20px; gap:20px; overflow-y:auto}
 .prejoin-video-wrap { flex:none; width:100%; aspect-ratio:4/3}
 .status-bar {
-flex-direction:column;
-align-items:flex-start;
-gap:5px;
+flex-direction:row;
+align-items:center;
+gap:8px;
 border-radius:14px;
-padding:8px 12px;
+padding:7px 12px;
 font-size:10.5px;
 top:10px;
 max-width:calc(100vw - 24px);
 }
 .status-bar .title { display:none}
-.status-bar .time-left-chip { font-size:9.5px; padding:2px 8px}
+.status-bar .rec-ind { display:none}
+.status-bar .time-left-chip { font-size:9px; padding:2px 6px}
 .remote-label {
 top:10px;
 left:10px;
@@ -314,11 +315,11 @@ max-width:calc(100vw - 24px);
 .local-wrap.mobile-hidden .local-avatar,
 .local-wrap.mobile-hidden .video-label { display:none !important}
 .local-wrap.mobile-hidden { width:32px; height:32px; background:rgba(0,0,0,0.5); border-radius:16px}
-.toolbar-wrap { gap:5px; padding:6px; bottom:12px; max-width:calc(100vw - 16px); flex-wrap:wrap; justify-content:center}
-.tool-btn { width:42px; height:42px; border-radius:11px; font-size:15px}
-.device-caret { height:42px}
-.end-btn { height:42px; padding:0 14px; font-size:13px}
-.bar-sep { height:22px}
+.toolbar-wrap { gap:6px; padding:6px 10px; bottom:14px; max-width:calc(100vw - 20px); flex-wrap:nowrap; justify-content:center}
+.tool-btn { width:40px; height:40px; border-radius:11px; font-size:15px; flex:none}
+.device-caret { height:40px; flex:none}
+.end-btn { height:40px; padding:0 14px; font-size:13px; flex:none; white-space:nowrap}
+.bar-sep { height:22px; flex:none}
 /* Only the essentials on mobile: mic, camera, screen share, whiteboard, leave */
 #chat-btn, #hand-btn, #reaction-btn, #fs-btn, #pip-btn, #focus-btn, #rec-btn { display:none !important}
 .whiteboard-container { width:98%; height:96%}
@@ -378,7 +379,7 @@ max-width:calc(100vw - 24px);
 </div>
 <div class="viewport" id="viewport">
     <video id="remoteVideo" autoplay playsinline></video>
-    <div class="avatar-circle" id="remoteAvatar">
+    <div class="avatar-circle show" id="remoteAvatar">
         <div class="circle">${initialsRemote}</div>
         <p class="waiting-title" id="waitingTitle">Waiting for ${remoteName} to join</p>
     </div>
