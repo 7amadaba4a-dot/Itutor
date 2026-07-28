@@ -155,6 +155,28 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .local-wrap.dragging { cursor:grabbing}
 .local-wrap .lock-toggle { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:rgba(0,0,0,0.5); color:white; display:flex; align-items:center; justify-content:center; font-size:11px; z-index:52; cursor:pointer}
 .mobile-cam-toggle { display:none}
+.more-menu { position:absolute; bottom:70px; right:16px; background:#1c1c1e; border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:6px; z-index:110; display:flex; flex-direction:column; width:200px; box-shadow:0 10px 30px rgba(0,0,0,0.5); opacity:0; transform:translateY(8px) scale(0.94); transform-origin:bottom right; pointer-events:none; transition:opacity .18s ease, transform .22s cubic-bezier(.34,1.56,.64,1)}
+.more-menu.open { opacity:1; transform:translateY(0) scale(1); pointer-events:auto}
+.more-menu-item { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:8px; cursor:pointer; color:#e5e5e5; font-size:13px; white-space:nowrap}
+.more-menu-item:hover { background:rgba(255,255,255,0.08)}
+.more-menu-item i { width:16px; text-align:center; color:rgba(255,255,255,0.7); flex:none}
+.more-menu-item span { flex:1}
+.more-menu-dot { width:7px; height:7px; border-radius:50%; background:#ef4444; margin-left:auto; flex:none}
+.mobile-only-menu-item { display:none}
+/* ============================================================
+   Any narrower viewport (tablet AND mobile alike, both inside the
+   app and in a resized desktop browser tab) collapses the
+   less-critical tools (hand-raise, reactions, fullscreen, PiP,
+   focus mode, captions, record) into a "More" dropdown instead of
+   hiding them outright or overflowing the bar. Only a genuinely
+   wide desktop view (>900px) keeps everything spread out inline.
+   NOTE: this block is placed near the END of the stylesheet
+   deliberately - CSS resolves equal-specificity conflicts by
+   picking whichever rule comes LAST in source order, regardless
+   of media-query nesting. An earlier version of this block sat
+   above the unconditional .more-btn/.overflow-sep base rules,
+   which silently cancelled it out at every screen width.
+   ============================================================ */
 .local-wrap.locked .lock-toggle { color:#fbbf24}
 #localVideo { width:210px; aspect-ratio:16/11; border-radius:16px; border:2px solid rgba(255,255,255,0.14); background:#16161a; object-fit:cover; display:block; transform:scaleX(-1)}
 .local-avatar { position:absolute; inset:0; width:210px; aspect-ratio:16/11; border-radius:16px; z-index:51; display:none; align-items:center; justify-content:center}
@@ -192,6 +214,9 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .toolbar-wrap { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); z-index:100; display:flex; align-items:center; gap:6px; padding:8px; border-radius:22px; transition:transform .34s cubic-bezier(.22,.75,.3,1), opacity .24s ease; ${barStyle === 'glass' ? 'background:rgba(20,20,24,0.55);' :'background:#1c1c20;'} }
 .toolbar-wrap.tucked { transform:translateX(-50%) translateY(150%); opacity:0; pointer-events:none}
 .tool-btn { width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; color:white; cursor:pointer; background:rgba(255,255,255,0.05); transition:transform .12s cubic-bezier(.34,1.56,.64,1), background .15s ease}
+.more-btn { display:none}
+.overflow-sep { display:none}
+.overflow-tools { display:flex; align-items:center; gap:6px}
 .captions-bar { position:absolute; bottom:96px; left:50%; transform:translateX(-50%); z-index:97; max-width:80%; background:rgba(0,0,0,0.72); color:white; padding:10px 18px; border-radius:12px; font-size:15px; line-height:1.4; text-align:center; display:none}
 .captions-bar.show { display:block}
 .captions-bar .cc-speaker { font-size:11px; font-weight:700; color:#fbbf24; display:block; margin-bottom:2px}
@@ -287,7 +312,15 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
    app's WebView). Nothing above this line is touched, so the
    desktop/web experience is completely unaffected.
    ============================================================ */
+@media (max-width: 900px) {
+.overflow-tools { display:none}
+.overflow-sep { display:block}
+.more-btn { display:flex}
+}
 @media (max-width: 480px) {
+#chat-btn { display:none !important}
+#share-btn { display:none !important}
+.mobile-only-menu-item { display:flex}
 .prejoin-card { flex-direction:column; padding:24px 20px; gap:20px; overflow-y:auto}
 .prejoin-video-wrap { flex:none; width:100%; aspect-ratio:4/3}
 .status-bar {
@@ -324,18 +357,14 @@ max-width:calc(100vw - 24px);
 .local-wrap.mobile-hidden .local-avatar,
 .local-wrap.mobile-hidden .video-label { display:none !important}
 .local-wrap.mobile-hidden { width:32px; height:32px; background:rgba(0,0,0,0.5); border-radius:16px}
-.toolbar-wrap { gap:8px; padding:8px 12px; bottom:22px; max-width:calc(100vw - 20px); flex-wrap:nowrap; justify-content:center}
-.tool-btn { width:44px; height:44px; border-radius:12px; font-size:16px; flex:none}
-.device-caret { height:44px; flex:none}
-.end-btn { height:44px; padding:0 16px; font-size:13.5px; flex:none; white-space:nowrap}
-.bar-sep { height:24px; flex:none}
-/* Only one separator survives on mobile (mic/cam group vs. share+whiteboard) -
-   the other two sit between buttons that are entirely hidden on mobile, which
-   left two blank separator lines stuck together right before Leave. */
-.toolbar-wrap .bar-sep:nth-of-type(2),
-.toolbar-wrap .bar-sep:nth-of-type(3) { display:none}
-/* Only the essentials on mobile: mic, camera, screen share, whiteboard, leave */
-#chat-btn, #hand-btn, #reaction-btn, #fs-btn, #pip-btn, #focus-btn, #rec-btn { display:none !important}
+.toolbar-wrap { gap:6px; padding:6px 10px; bottom:22px; max-width:calc(100vw - 20px); flex-wrap:nowrap; justify-content:center}
+.tool-btn { width:34px; height:34px; border-radius:9px; font-size:13px; flex:none}
+.device-caret { height:34px; width:16px; flex:none}
+.end-btn { height:34px; padding:0 11px; font-size:12px; flex:none; white-space:nowrap}
+.bar-sep { height:18px; flex:none}
+.more-btn { width:34px; height:34px}
+.more-menu { width:180px; right:8px; bottom:66px}
+.more-menu-item { padding:8px 9px; font-size:12.5px}
 .whiteboard-container { width:98%; height:96%}
 .wb-header { padding:8px 12px; flex-wrap:wrap}
 .wb-peer-video, .wb-local-video { width:90px; height:64px}
@@ -455,7 +484,8 @@ max-width:calc(100vw - 24px);
         ${enableScreenShare ? '<div class="tool-btn" onclick="toggleScreenShare()" id="share-btn" title="Share Screen"><i class="fas fa-arrow-up-from-bracket"></i></div>' : ''}
         ${enableWhiteboard ? '<div class="tool-btn" onclick="openWhiteboard()" title="Whiteboard"><i class="fas fa-square-pen"></i></div>' : ''}
         ${enableChat ? '<div class="tool-btn" onclick="toggleChatPanel()" title="Chat" id="chat-btn"><i class="fas fa-comment"></i><span class="badge" id="chatBadge" style="display:none;">0</span></div>' : ''}
-        <span class="bar-sep"></span>
+        <span class="bar-sep overflow-sep" id="overflowSep"></span>
+        <div class="overflow-tools" id="overflowTools">
         ${enableRaiseHand ? '<div class="tool-btn" onclick="toggleRaiseHand()" id="hand-btn" title="Raise Hand"><i class="fas fa-hand"></i></div>' : ''}
         ${enableReactions ? '<div class="tool-btn" onclick="toggleReactionPicker()" id="reaction-btn" title="Reactions"><i class="fas fa-face-smile"></i></div>' : ''}
         ${enableFullscreen ? '<div class="tool-btn" onclick="toggleFullscreen()" id="fs-btn" title="Fullscreen"><i class="fas fa-expand"></i></div>' : ''}
@@ -463,6 +493,19 @@ max-width:calc(100vw - 24px);
         <div class="tool-btn" onclick="toggleFocusMode()" id="focus-btn" title="Focus mode"><i class="fas fa-compress"></i></div>
         <div class="tool-btn" onclick="toggleCaptions()" id="cc-btn" title="Live captions"><i class="fas fa-closed-captioning"></i></div>
         <div class="tool-btn" onclick="toggleRecording()" id="rec-btn" title="Record on my device"><i class="fas fa-circle"></i></div>
+        </div>
+        <div class="tool-btn more-btn" id="more-btn" onclick="toggleMoreMenu(event)" title="More tools"><i class="fas fa-ellipsis-vertical"></i></div>
+        <div class="more-menu" id="moreMenu">
+        ${enableScreenShare ? '<div class="more-menu-item mobile-only-menu-item" onclick="toggleScreenShare(); closeMoreMenu();"><i class="fas fa-arrow-up-from-bracket"></i><span>Share Screen</span></div>' : ''}
+        ${enableChat ? '<div class="more-menu-item mobile-only-menu-item" onclick="toggleChatPanel(); closeMoreMenu();"><i class="fas fa-comment"></i><span>Chat</span><span class="more-menu-dot" id="chatBadgeMenu" style="display:none;"></span></div>' : ''}
+        ${enableRaiseHand ? '<div class="more-menu-item" onclick="toggleRaiseHand(); closeMoreMenu();"><i class="fas fa-hand"></i><span>Raise Hand</span></div>' : ''}
+        ${enableReactions ? '<div class="more-menu-item" onclick="toggleReactionPicker(); closeMoreMenu();"><i class="fas fa-face-smile"></i><span>Reactions</span></div>' : ''}
+        ${enableFullscreen ? '<div class="more-menu-item" onclick="toggleFullscreen(); closeMoreMenu();"><i class="fas fa-expand"></i><span>Fullscreen</span></div>' : ''}
+        ${enablePipButton ? '<div class="more-menu-item" onclick="toggleNativePip(); closeMoreMenu();"><i class="fas fa-clone"></i><span>Picture in Picture</span></div>' : ''}
+        <div class="more-menu-item" onclick="toggleFocusMode(); closeMoreMenu();"><i class="fas fa-compress"></i><span>Focus mode</span></div>
+        <div class="more-menu-item" onclick="toggleCaptions(); closeMoreMenu();"><i class="fas fa-closed-captioning"></i><span>Live captions</span></div>
+        <div class="more-menu-item" onclick="toggleRecording(); closeMoreMenu();"><i class="fas fa-circle"></i><span>Record</span></div>
+        </div>
         <span class="bar-sep"></span>
         <button class="end-btn" onclick="endCall()"><i class="fas fa-phone-slash"></i> Leave</button>
         <div class="tool-btn slim" onclick="hideBar()" title="Hide controls"><i class="fas fa-chevron-down"></i></div>
@@ -1028,6 +1071,22 @@ b._t = setTimeout(() => b.classList.remove('show'), 4000);
 }
 function toggleReactionPicker() { document.getElementById('reactionPicker').classList.toggle('open'); }
 
+function toggleMoreMenu(evt) {
+  evt.stopPropagation();
+  const menu = document.getElementById('moreMenu');
+  if (menu) menu.classList.toggle('open');
+}
+function closeMoreMenu() {
+  const menu = document.getElementById('moreMenu');
+  if (menu) menu.classList.remove('open');
+}
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('moreMenu');
+  if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('#more-btn')) {
+    menu.classList.remove('open');
+  }
+});
+
 // --- Live captions (speech-to-text only, no translation) ---------------
 // Uses the browser's own free built-in speech recognition (Chrome/Edge/Safari
 // desktop support it; Chrome Android does too - iOS Safari mobile does not).
@@ -1274,8 +1333,11 @@ function onDragMove(e) {
   if (!dragging) return;
   const p = getPoint(e);
   const dx = p.x - startX; const dy = p.y - startY;
-  el.style.left = Math.max(4, startLeft + dx) + 'px';
-  el.style.top = Math.max(4, startTop + dy) + 'px';
+  const parentRect = el.offsetParent ? el.offsetParent.getBoundingClientRect() : { width: window.innerWidth, height: window.innerHeight };
+  const maxLeft = Math.max(4, parentRect.width - el.offsetWidth - 4);
+  const maxTop = Math.max(4, parentRect.height - el.offsetHeight - 4);
+  el.style.left = Math.min(maxLeft, Math.max(4, startLeft + dx)) + 'px';
+  el.style.top = Math.min(maxTop, Math.max(4, startTop + dy)) + 'px';
   el.style.right = 'auto'; el.style.bottom = 'auto';
   if (e.cancelable) e.preventDefault();
 }
@@ -1601,6 +1663,8 @@ if (!isMine && !chatPanelOpen) {
 chatUnread++;
 const badge = document.getElementById('chatBadge');
 if (badge) { badge.style.display = 'flex'; badge.innerText = String(chatUnread); }
+const badgeMenu = document.getElementById('chatBadgeMenu');
+if (badgeMenu) badgeMenu.style.display = 'inline-block';
 }
 }
 function sendChatMessage(text) {
@@ -1654,7 +1718,7 @@ const panel = document.getElementById('chatPanel');
 chatPanelOpen = !chatPanelOpen;
 panel.classList.toggle('open', chatPanelOpen);
 document.getElementById('chat-btn') && document.getElementById('chat-btn').classList.toggle('accent-active', chatPanelOpen);
-if (chatPanelOpen) { chatUnread = 0; const badge = document.getElementById('chatBadge'); if (badge) badge.style.display = 'none'; }
+if (chatPanelOpen) { chatUnread = 0; const badge = document.getElementById('chatBadge'); if (badge) badge.style.display = 'none'; const badgeMenu = document.getElementById('chatBadgeMenu'); if (badgeMenu) badgeMenu.style.display = 'none'; }
 }
 let wbSaveTimer = null;
 function notifyParentWhiteboardChange(immediate) {
