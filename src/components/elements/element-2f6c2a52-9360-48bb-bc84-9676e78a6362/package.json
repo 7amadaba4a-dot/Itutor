@@ -1,1 +1,1 @@
-{"name":"tutorzy-meeting-room","version":"8.5.0","scripts":{"build":"weweb build","serve":"weweb serve"},"devDependencies":{}}
+{"name":"tutorzy-meeting-room","version":"8.7.0","scripts":{"build":"weweb build","serve":"weweb serve"},"devDependencies":{}}

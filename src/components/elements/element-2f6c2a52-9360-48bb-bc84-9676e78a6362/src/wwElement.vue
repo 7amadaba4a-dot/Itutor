@@ -143,8 +143,10 @@ body, html { margin:0; padding:0; height:100%; background:#0a0a0c; overflow:hidd
 .leave-cancel-btn { flex:1; background:rgba(255,255,255,0.08); color:white; border:none; border-radius:9px; padding:10px; cursor:pointer; font-size:13px}
 .leave-confirm-btn { flex:1; background:linear-gradient(135deg,#ef4444,#b91c1c); color:white; border:none; border-radius:9px; padding:10px; cursor:pointer; font-size:13px}
 #remoteVideo { width:100%; height:100%; object-fit:cover; z-index:10; background:#101014}
-.avatar-circle { position:absolute; inset:0; display:none; align-items:center; justify-content:center; z-index:15}
+.avatar-circle { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; gap:18px; z-index:15}
 .avatar-circle.show { display:flex}
+.circle { width:96px; height:96px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; font-size:36px; font-weight:600; color:rgba(255,255,255,0.85)}
+.waiting-title { font-size:16px; font-weight:600; color:white; margin:0; text-align:center; padding:0 24px}
 .local-wrap { position:absolute; top:96px; left:20px; z-index:50; width:210px; pointer-events:auto; cursor:grab}
 .local-wrap.dragging { cursor:grabbing}
 .local-wrap .lock-toggle { position:absolute; top:6px; right:6px; width:22px; height:22px; border-radius:50%; background:rgba(0,0,0,0.5); color:white; display:flex; align-items:center; justify-content:center; font-size:11px; z-index:52; cursor:pointer}
@@ -304,6 +306,7 @@ max-width:calc(100vw - 24px);
 .video-label { font-size:10.5px; padding:4px 9px}
 .video-label .role-badge { display:none}
 .local-wrap { top:14px !important; left:auto !important; right:12px !important; bottom:auto !important; width:96px; z-index:70}
+.local-wrap .video-label { display:none}
 #localVideo, .local-avatar { width:96px}
 .local-wrap .lock-toggle { display:none}
 .mobile-cam-toggle { display:flex !important; position:absolute; top:6px; left:6px; width:20px; height:20px; border-radius:50%; background:rgba(0,0,0,0.55); color:white; align-items:center; justify-content:center; font-size:10px; z-index:71; cursor:pointer}
@@ -375,8 +378,11 @@ max-width:calc(100vw - 24px);
 </div>
 <div class="viewport" id="viewport">
     <video id="remoteVideo" autoplay playsinline></video>
-    <div class="avatar-circle" id="remoteAvatar"><div class="circle">${initialsRemote}</div></div>
-    <div class="remote-label"><span id="remoteLabel">Waiting for ${remoteName}...</span><span class="role-badge">${isTeacher ? 'Student' : 'Teacher'}</span><i id="peerMic" class="fas fa-microphone ok"></i><i id="peerCam" class="fas fa-video ok"></i></div>
+    <div class="avatar-circle" id="remoteAvatar">
+        <div class="circle">${initialsRemote}</div>
+        <p class="waiting-title" id="waitingTitle">Waiting for ${remoteName} to join</p>
+    </div>
+    <div class="remote-label" id="remoteLabelWrap" style="display:none;"><span id="remoteLabel">${remoteName}</span><span class="role-badge">${isTeacher ? 'Student' : 'Teacher'}</span><i id="peerMic" class="fas fa-microphone ok"></i><i id="peerCam" class="fas fa-video ok"></i></div>
     <div class="hand-banner" id="handBanner"></div>
     <div class="pip-close" id="pipClose" onclick="closeWhiteboard()"><i class="fas fa-expand"></i></div>
 
@@ -804,6 +810,8 @@ const label = document.getElementById('remoteLabel');
 if (label) label.innerText = REMOTE_NAME;
 const av = document.getElementById('remoteAvatar');
 if (av) av.classList.remove('show');
+const wrap = document.getElementById('remoteLabelWrap');
+if (wrap) wrap.style.display = 'flex';
 }
 function endCall() {
 const modal = document.getElementById('leaveConfirmModal');
@@ -962,6 +970,8 @@ const el = document.getElementById('peerCam');
 if (el) el.className = msg.cam ? 'fas fa-video ok' : 'fas fa-video-slash off';
 const av = document.getElementById('remoteAvatar');
 if (av) av.classList.toggle('show', !msg.cam);
+const title = document.getElementById('waitingTitle');
+if (title && callStartedFired) title.innerText = REMOTE_NAME + "'s camera is off";
 }
 if (msg.quality) {
 const el = document.getElementById('cpTheirs');
