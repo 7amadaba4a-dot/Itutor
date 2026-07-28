@@ -896,7 +896,27 @@ const av = document.getElementById('remoteAvatar');
 if (av) av.classList.remove('show');
 const wrap = document.getElementById('remoteLabelWrap');
 if (wrap) wrap.style.display = 'flex';
+if (v) {
+v.onloadedmetadata = () => updateRemoteVideoFit(v);
 }
+}
+
+// The peer's camera might be landscape (typical desktop/laptop webcam, wide)
+// while my own screen is portrait (typical phone) or vice-versa. object-fit:
+// cover always fills the box by cropping - fine when both are a similar
+// shape, but when they're mismatched it can crop away the actual person,
+// leaving just a sliver of wall or shoulder. Switch to 'contain' (shows the
+// whole frame, with letterboxing) whenever the shapes meaningfully disagree.
+function updateRemoteVideoFit(v) {
+if (!v || !v.videoWidth || !v.videoHeight) return;
+const videoIsLandscape = v.videoWidth > v.videoHeight;
+const boxIsLandscape = v.clientWidth > v.clientHeight;
+v.style.objectFit = (videoIsLandscape !== boxIsLandscape) ? 'contain' : 'cover';
+}
+window.addEventListener('resize', () => {
+const v = document.getElementById('remoteVideo');
+if (v && v.srcObject) updateRemoteVideoFit(v);
+});
 function endCall() {
 const modal = document.getElementById('leaveConfirmModal');
 if (modal) modal.style.display = 'flex';
