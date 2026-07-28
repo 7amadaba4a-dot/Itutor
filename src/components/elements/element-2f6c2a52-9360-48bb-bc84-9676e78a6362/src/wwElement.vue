@@ -443,7 +443,7 @@ max-width:calc(100vw - 24px);
     </div>
 </div>
 <div class="viewport" id="viewport">
-    <div id="debugBadge" style="position:absolute;top:2px;left:2px;z-index:999;background:red;color:white;font-size:9px;padding:3px 6px;border-radius:6px;max-width:96vw;word-break:break-all;">DEBUG isAppMode=${isAppMode} | prop=${JSON.stringify(this.content?.isAppMode)}</div>
+    <div id="debugBadge" style="position:absolute;top:2px;left:2px;z-index:999;background:red;color:white;font-size:9px;padding:3px 6px;border-radius:6px;max-width:96vw;word-break:break-all;">DEBUG isAppMode=${isAppMode} | prop=${JSON.stringify(this.content?.isAppMode)} | parentUrl=${(() => { try { return window.location.href; } catch(e) { return 'ERR:' + e.message; } })()}</div>
     <video id="remoteVideo" autoplay playsinline></video>
     <div class="avatar-circle show" id="remoteAvatar">
         ${remotePhotoUrl ? `<img src="${remotePhotoUrl}" class="circle-photo" alt="">` : `<div class="circle">${initialsRemote}</div>`}
