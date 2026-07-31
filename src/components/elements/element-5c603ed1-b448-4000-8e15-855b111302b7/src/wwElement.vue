@@ -1237,12 +1237,12 @@ export default {
                             font-size: calc(var(--event-title-font-size, 0.8em) * 0.85) !important;
                             max-width: 75% !important;
                         }
-                        
+
                         // ⭐ إخفاء الوقت فقط في الأحداث الصغيرة
                         .event-time-wrapper {
                             display: none !important;
                         }
-                        
+
                         // ⭐ الأيقونة تظهر دائماً - تصغير حجمها فقط
                         .event-icon-wrapper .event-icon {
                             width: calc(var(--event-icon-size, 16px) * 0.7) !important;
@@ -1505,15 +1505,15 @@ export default {
                             font-size: calc(var(--event-title-font-size, 0.8em) * 0.75) !important;
                             max-width: 70% !important;
                         }
-                        
+
                         .event-time-wrapper {
                             display: none !important;
                         }
-                        
+
                         // ⭐ الأيقونة تظهر دائماً في الأحداث الصغيرة
                         .event-icon-wrapper {
                             display: block !important;
-                            
+
                             .event-icon {
                                 width: calc(var(--event-icon-size, 16px) * 0.6) !important;
                                 height: calc(var(--event-icon-size, 16px) * 0.6) !important;
@@ -1533,11 +1533,11 @@ export default {
                             font-size: calc(var(--event-title-font-size, 0.8em) * 0.7) !important;
                             max-width: 65% !important;
                         }
-                        
+
                         .event-time-wrapper {
                             display: none !important;
                         }
-                        
+
                         // ⭐ الأيقونة تظهر دائماً
                         .event-icon-wrapper .event-icon {
                             width: calc(var(--event-icon-size, 16px) * 0.5) !important;
@@ -1575,7 +1575,7 @@ export default {
                     // ⭐ الأيقونة تظهر في متعدد الأشهر أيضاً
                     .event-icon-wrapper {
                         display: block !important;
-                        
+
                         .event-icon {
                             width: calc(var(--event-icon-size, 16px) * 0.5) !important;
                             height: calc(var(--event-icon-size, 16px) * 0.5) !important;
@@ -1704,7 +1704,7 @@ export default {
                             font-size: calc(var(--event-title-font-size, 0.8em) * 0.65) !important;
                             max-width: 60% !important;
                         }
-                        
+
                         .event-icon-wrapper .event-icon {
                             width: calc(var(--event-icon-size, 16px) * 0.5) !important;
                             height: calc(var(--event-icon-size, 16px) * 0.5) !important;
@@ -1745,7 +1745,7 @@ export default {
                         .event-title-wrapper .event-title {
                             font-size: calc(var(--event-title-font-size, 0.8em) * 0.6) !important;
                         }
-                        
+
                         .event-icon-wrapper .event-icon {
                             width: calc(var(--event-icon-size, 16px) * 0.45) !important;
                             height: calc(var(--event-icon-size, 16px) * 0.45) !important;
